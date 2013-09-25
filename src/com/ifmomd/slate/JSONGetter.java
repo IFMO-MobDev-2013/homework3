@@ -9,9 +9,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by Sergey on 9/25/13.
- */
 class JSONGetter extends AsyncTask<String, Void, JSONObject> {
     interface ResultHandler {
         void handleResult(JSONObject result);
