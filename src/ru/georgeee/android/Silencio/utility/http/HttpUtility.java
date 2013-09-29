@@ -29,7 +29,6 @@ import java.util.concurrent.Executors;
 public class HttpUtility {
     private static HttpUtility ourInstance = new HttpUtility();
     private HttpClient defaultHttpClient = null;
-    private FileCacher fileCacher;
     private Executor translateApiExecutor = null;
     private Executor imageApiExecutor = null;
     private Executor downloadExecutor = null;
@@ -70,14 +69,6 @@ public class HttpUtility {
         ClientConnectionManager connectionManager = new ThreadSafeClientConnManager(params, registry);
         if (defaultHttpClient == null) defaultHttpClient = new DefaultHttpClient(connectionManager, params);
         return defaultHttpClient;
-    }
-
-    public FileCacher getFileCacher() {
-        return fileCacher;
-    }
-
-    public void setFileCacher(FileCacher fileCacher) {
-        this.fileCacher = fileCacher;
     }
 
     public void readInputStreamIntoFile(InputStream inputStream, File file) throws IOException {

@@ -30,7 +30,7 @@ public abstract class CachingHttpDownloadTask extends HttpTask<File> {
     @Override
     protected File doInBackground(Object... params) {
         String url = getUrl();
-        FileCacher fileCacher = HttpUtility.getInstance().getFileCacher();
+        FileCacher fileCacher = FileCacher.getInstance();
         File file = fileCacher.registerFile(url);
         if (file.exists()) {
             return file;
@@ -41,7 +41,7 @@ public abstract class CachingHttpDownloadTask extends HttpTask<File> {
     @Override
     protected File getResult(HttpResponse httpResponse) throws IOException {
         String url = getUrl();
-        FileCacher fileCacher = HttpUtility.getInstance().getFileCacher();
+        FileCacher fileCacher = FileCacher.getInstance();
         File file = fileCacher.registerFile(url);
         if (file.exists()) {
             return file;

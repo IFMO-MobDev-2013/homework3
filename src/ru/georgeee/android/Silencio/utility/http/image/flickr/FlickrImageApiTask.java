@@ -31,6 +31,10 @@ public class FlickrImageApiTask extends ImageApiTask {
         this.apiKey = apiKey;
     }
 
+    public FlickrImageApiTask(String apiKey, String searchText) {
+        this(apiKey, searchText, 1);
+    }
+
     @Override
     protected FlickrImageApiResult getResultByJson(JSONObject jObject) {
         FlickrImageApiResult result = new FlickrImageApiResult();
@@ -38,7 +42,7 @@ public class FlickrImageApiTask extends ImageApiTask {
             JSONObject jsonObject = jObject.getJSONObject("photos");
             result.setPageCount(jsonObject.getInt("pages"));
             result.setPageNumber(jsonObject.getInt("page"));
-            result.setTotalImageCount(jsonObject.getInt("total"));
+            result.setTotalImageCount(Integer.valueOf(jsonObject.getString("total")));
             JSONArray imageJSONArray = jsonObject.getJSONArray("photo");
             FlickrImageApiResult.FlickrImage[] images = new FlickrImageApiResult.FlickrImage[imageJSONArray.length()];
             for(int i=0; i<images.length; ++i){

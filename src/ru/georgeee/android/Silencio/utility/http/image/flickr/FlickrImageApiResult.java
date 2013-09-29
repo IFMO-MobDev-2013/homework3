@@ -35,13 +35,13 @@ public class FlickrImageApiResult extends ImageApiResult {
             server = params.getString("server");
             farm = params.getLong("farm");
             title = params.getString("title");
-            isPublic = params.getInt("isPublic") == 1;
-            isFriend = params.getInt("isFriend") == 1;
-            isFamily = params.getInt("isFamily") == 1;
+            isPublic = params.getInt("ispublic") == 1;
+            isFriend = params.getInt("isfriend") == 1;
+            isFamily = params.getInt("isfamily") == 1;
         }
 
         protected String getImageUrl(String sizeMarker){
-            return "http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+"_"+sizeMarker+".jpg";
+            return "http://farm"+farm+".staticflickr.com/"+server+"/"+id+"_"+secret+(sizeMarker==null?"":"_"+sizeMarker)+".jpg";
         }
 
         @Override
@@ -51,7 +51,7 @@ public class FlickrImageApiResult extends ImageApiResult {
 
         @Override
         public String getLargeImageUrl() {
-            return getImageUrl("b");
+            return getImageUrl(null);
         }
     }
 }
