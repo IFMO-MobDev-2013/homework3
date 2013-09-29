@@ -33,4 +33,5 @@ public class TranslateResult {
     public void setLangDetected(String langDetected) {
         this.langDetected = langDetected;
     }
+
 }

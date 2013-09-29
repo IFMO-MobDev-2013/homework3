@@ -1,5 +1,6 @@
 package ru.georgeee.android.Silencio.utility.http;
 
+import android.util.Log;
 import org.apache.http.HttpResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,8 +17,8 @@ import java.io.InputStreamReader;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class JsonResponseHttpTask<Result> extends HttpTask<Result> {
-    protected void handleJSONException(JSONException e) {
-        e.printStackTrace();
+    protected void handleJSONException(JSONException ex) {
+        ex.printStackTrace();
     }
 
     protected abstract Result getResultByJson(JSONObject jsonObject);

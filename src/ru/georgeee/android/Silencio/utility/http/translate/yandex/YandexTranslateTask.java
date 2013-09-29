@@ -1,5 +1,6 @@
 package ru.georgeee.android.Silencio.utility.http.translate.yandex;
 
+import android.util.Log;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateTask;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -23,8 +25,20 @@ public class YandexTranslateTask extends TranslateTask {
     protected String apiKey;
 
     public YandexTranslateTask(String apiKey) {
-        this.apiKey = apiKey;
+        this(apiKey, null, null) ;
     }
+
+    public YandexTranslateTask(String apiKey, String srcText, String toLanguage) {
+        this(apiKey, srcText, toLanguage, null);
+    }
+    public YandexTranslateTask(String apiKey, String srcText, String toLanguage, String fromLanguage) {
+        this.apiKey = apiKey;
+        this.srcText = srcText;
+        this.toLanguage = toLanguage;
+        this.fromLanguage = fromLanguage;
+    }
+
+
 
     @Override
     protected TranslateResult getResultByJson(JSONObject jsonObject) {
@@ -39,6 +53,7 @@ public class YandexTranslateTask extends TranslateTask {
             handleJSONException(e);
             return null;
         }
+
         return translateResult;
     }
 
