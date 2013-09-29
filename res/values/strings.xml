@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Silencio</string>
+    <string name="yandex_translate_api_key">trnsl.1.1.20130929T093159Z.5d69fad7f86d7976.d05aeca7b3f8d233f46f93930066e4d87793cbb4</string>
 </resources>
