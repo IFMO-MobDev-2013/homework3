@@ -43,6 +43,6 @@ public abstract class TranslateTask extends JsonResponseHttpTask<TranslateResult
 
     @Override
     protected Executor getExecutor() {
-        return HttpUtility.getInstance().getTranslateExecutor();
+        return HttpUtility.getInstance().getTranslateApiExecutor();
     }
 }

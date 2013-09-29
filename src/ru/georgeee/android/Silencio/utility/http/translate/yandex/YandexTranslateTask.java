@@ -1,8 +1,5 @@
 package ru.georgeee.android.Silencio.utility.http.translate.yandex;
 
-import android.util.Log;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +7,6 @@ import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateTask;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -25,19 +21,19 @@ public class YandexTranslateTask extends TranslateTask {
     protected String apiKey;
 
     public YandexTranslateTask(String apiKey) {
-        this(apiKey, null, null) ;
+        this(apiKey, null, null);
     }
 
     public YandexTranslateTask(String apiKey, String srcText, String toLanguage) {
         this(apiKey, srcText, toLanguage, null);
     }
+
     public YandexTranslateTask(String apiKey, String srcText, String toLanguage, String fromLanguage) {
         this.apiKey = apiKey;
         this.srcText = srcText;
         this.toLanguage = toLanguage;
         this.fromLanguage = fromLanguage;
     }
-
 
 
     @Override
@@ -58,7 +54,7 @@ public class YandexTranslateTask extends TranslateTask {
     }
 
     @Override
-    protected HttpRequestBase getHttpRequestBase() {
+    protected String getUrl() {
         String url = null;
         Map<String, String> getParams = new Hashtable<String, String>();
         getParams.put("key", apiKey);
@@ -70,7 +66,7 @@ public class YandexTranslateTask extends TranslateTask {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        HttpGet httpGet = new HttpGet(url);
-        return httpGet;
+        return url;
     }
+
 }

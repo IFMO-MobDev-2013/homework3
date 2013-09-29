@@ -10,7 +10,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
+import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -24,21 +29,37 @@ import java.util.concurrent.Executors;
 public class HttpUtility {
     private static HttpUtility ourInstance = new HttpUtility();
     private HttpClient defaultHttpClient = null;
+    private FileCacher fileCacher;
+    private Executor translateApiExecutor = null;
+    private Executor imageApiExecutor = null;
+    private Executor downloadExecutor = null;
+
+    private HttpUtility() {
+    }
 
     public static HttpUtility getInstance() {
         return ourInstance;
     }
 
-    private HttpUtility() {
+    public Executor getTranslateApiExecutor() {
+        if (translateApiExecutor == null) {
+            translateApiExecutor = Executors.newCachedThreadPool();
+        }
+        return translateApiExecutor;
     }
 
-    private Executor translateExecutor = null;
-
-    public Executor getTranslateExecutor() {
-        if (translateExecutor == null) {
-            translateExecutor = Executors.newCachedThreadPool();
+    public Executor getImageApiExecutor() {
+        if (imageApiExecutor == null) {
+            imageApiExecutor = Executors.newCachedThreadPool();
         }
-        return translateExecutor;
+        return imageApiExecutor;
+    }
+
+    public Executor getDownloadExecutor() {
+        if (downloadExecutor == null) {
+            downloadExecutor = Executors.newCachedThreadPool();
+        }
+        return downloadExecutor;
     }
 
     public HttpClient getMultiThreadHttpClient() {
@@ -51,4 +72,44 @@ public class HttpUtility {
         return defaultHttpClient;
     }
 
+    public FileCacher getFileCacher() {
+        return fileCacher;
+    }
+
+    public void setFileCacher(FileCacher fileCacher) {
+        this.fileCacher = fileCacher;
+    }
+
+    public void readInputStreamIntoFile(InputStream inputStream, File file) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(file);
+        try {
+            if (!file.exists()) file.createNewFile();
+            int read = 0;
+            byte[] bytes = new byte[1024 * 1024]; //1MB
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    throw e;
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.flush();
+                    outputStream.close();
+                } catch (IOException e) {
+                    throw e;
+                }
+
+            }
+        }
+    }
 }
