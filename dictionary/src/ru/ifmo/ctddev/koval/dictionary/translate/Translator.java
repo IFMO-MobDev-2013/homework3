@@ -11,7 +11,7 @@ public interface Translator {
      * Translate word from english to russian.
      *
      * @param word word to be translated
-     * @return translating word in english
+     * @return translating word in english or null if any error occurred
      */
     public String translate(String word);
 
