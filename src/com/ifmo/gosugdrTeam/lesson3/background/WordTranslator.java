@@ -1,4 +1,4 @@
-package com.java.android.dronov.translator;
+package com.ifmo.gosugdrTeam.lesson3.background;
 
 import org.json.JSONArray;
 import org.json.JSONException;

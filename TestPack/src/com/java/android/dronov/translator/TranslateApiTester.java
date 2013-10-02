@@ -1,8 +1,7 @@
 package com.java.android.dronov.translator;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
+import com.ifmo.gosugdrTeam.lesson3.background.WordTranslator;
 
 /**
  * This is a simple framework for a test of an Application.  See
