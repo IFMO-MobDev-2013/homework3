@@ -1,14 +1,12 @@
 package ru.georgeee.android.Silencio;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.download.SimpleCachingDownloadTask;
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
 import ru.georgeee.android.Silencio.utility.http.image.flickr.FlickrImageApiTask;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,11 +15,11 @@ import java.util.Arrays;
  * Time: 23:32
  * To change this template use File | Settings | File Templates.
  */
-public class CacherTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity> {
     public static final long CACHE_BYTE_LIMIT = 50*1024*1024;
 
     public CacherTest(String pkg) {
-        super(pkg, MainActivity.class);
+        super(pkg, SearchActivity.class);
     }
 
     public void testImageDownloadCache() throws Exception {

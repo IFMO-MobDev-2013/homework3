@@ -3,11 +3,50 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+              android:layout_margin="0dp"
         >
+
+    <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/search_field"
+                android:layout_margin="5dp"
+                android:hint="search"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_toLeftOf="@+id/search_button"
+                android:singleLine="true"
+                >
+        </EditText>
+
+        <Button
+                android:layout_margin="5dp"
+                android:id="@+id/search_button"
+                android:layout_height="40dp"
+                android:layout_width="80dp"
+                android:text="GO!"
+                android:layout_alignParentRight="true">
+        </Button>
+    </RelativeLayout>
+
     <TextView
-            android:layout_width="fill_parent"
+            android:id="@+id/translate_result"
             android:layout_height="wrap_content"
-            android:text="Hello World, MainActivity"
-            />
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:textSize="45dp"
+            android:textColor="@color/text">
+    </TextView>
+
+    <ListView
+            android:id="@+id/images_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+    </ListView>
+
 </LinearLayout>
 
