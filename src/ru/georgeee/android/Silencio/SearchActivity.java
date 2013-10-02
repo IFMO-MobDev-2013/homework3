@@ -6,11 +6,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import ru.georgeee.android.Silencio.utility.GUI.PicturesAdapter;
+import ru.georgeee.android.Silencio.utility.GUI.TranslateSetter;
 import ru.georgeee.android.Silencio.utility.GUI.TwoPicturesModel;
+import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.yandex.YandexTranslateTask;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class SearchActivity extends Activity {
     /**
@@ -22,6 +25,8 @@ public class SearchActivity extends Activity {
     private EditText searchField;
     private InputMethodManager imm;
     private PicturesAdapter adapter;
+    private TranslateSetter translateSetter = new TranslateSetter(null, null, "");
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,8 +62,13 @@ public class SearchActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(getSearchString().length() == 0)
+                    return;
                 setPictures(getSearchString());
-                setTranslate(getSearchString());
+
+                translateSetter = new TranslateSetter(getBaseContext(), translate, getSearchString());
+                translateSetter.execute();
+
                 imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
             }
         });
@@ -88,11 +98,5 @@ public class SearchActivity extends Activity {
     private void setPictures(String searchRequest) {
         adapter.init(searchRequest);
         adapter.notifyDataSetChanged();
-    }
-
-    private void setTranslate(String searchRequest) {
-        translate.setText(searchRequest);
-        //here will be added Gerorgees functionality as well
-
     }
 }
