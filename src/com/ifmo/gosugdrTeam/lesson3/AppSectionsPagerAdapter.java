@@ -34,7 +34,7 @@ public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		if (position == 0) {
+		if (position == 1) {
 			return "Translation";
 		} else {
 			return "Images";
