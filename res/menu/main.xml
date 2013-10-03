@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lesson3="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search"
+        lesson3:actionViewClass="android.support.v7.widget.SearchView"
+        lesson3:showAsAction="always|collapseActionView"/>
+
+</menu>
