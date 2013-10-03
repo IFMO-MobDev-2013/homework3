@@ -30,7 +30,7 @@ public class MyActivity extends Activity {
     public static String translate() throws IOException, JSONException {
         String apiKey = "trnsl.1.1.20131002T153823Z.1d17445a09437572.c4ab6b9e93d5810dbcba649e52d5049acacfd8d9";
         String requestUrl = "https://translate.yandex.net/api/v1.5/tr.json/translate?key="
-                + apiKey + "&text=" + URLEncoder.encode(s, "UTF-8") + "&lang=ru-en&format=plain";
+                + apiKey + "&text=" + URLEncoder.encode(s, "UTF-8") + "&lang=en-ru&format=plain";
 
         URL url = new URL(requestUrl);
         HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
