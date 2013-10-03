@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView1"/>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <TableRow android:paddingBottom="3dip">
+        <TextView
+                android:text="Word"
+                android:id="@+id/mes"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+
+                />
+    </TableRow>
+
+    <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:id="@+id/back"/>
+    </TableRow>
     <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,7 +30,8 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                >
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -28,7 +43,7 @@
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/image3"/>
+                    android:id="@+id/image3" android:layout_gravity="left|center_vertical"/>
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,4 +74,5 @@
                     android:id="@+id/image10" android:layout_gravity="left|center_vertical"/>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+</TableLayout>
