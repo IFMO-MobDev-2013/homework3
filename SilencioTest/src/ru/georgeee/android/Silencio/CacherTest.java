@@ -17,7 +17,7 @@ import java.io.File;
  * To change this template use File | Settings | File Templates.
  */
 public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity> {
-    public static final long CACHE_BYTE_LIMIT = 50 * 1024 * 1024;
+    public static final long CACHE_BYTE_LIMIT = 1024 * 1024;
     static final String BEATA_BEATRIX_URL = "http://allart.biz/up/photos/album/R/Dante%20Gabriel%20Rossetti/dante_gabriel_rossetti_17_beata_beatrix.jpg";
 
     public CacherTest() {
@@ -41,7 +41,7 @@ public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity>
         assertEquals(file.getAbsolutePath(), file2.getAbsolutePath());
     }
 
-    public void testImageDownloadCache() throws Exception {
+    public void _testImageDownloadCache() throws Exception {
         FileCacher.getInstance().init(getActivity(), CACHE_BYTE_LIMIT);
         ImageApiResult result = new FlickrImageApiTask(ImageApiTest.API_KEY, "Apple").executeOnHttpTaskExecutor().get();
         ImageApiResult.Image[] images = result.getImages();

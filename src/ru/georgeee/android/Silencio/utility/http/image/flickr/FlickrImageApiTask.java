@@ -76,6 +76,7 @@ public class FlickrImageApiTask extends ImageApiTask {
         getParams.put("api_key", apiKey);
         getParams.put("text", searchText);
         if (pageNumber != null) getParams.put("page", pageNumber.toString());
+        if (perPage != null) getParams.put("per_page", perPage.toString());
         getParams.put("format", "json");
         getParams.put("nojsoncallback", "1");
         try {

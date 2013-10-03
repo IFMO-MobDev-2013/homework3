@@ -15,6 +15,15 @@ import java.util.concurrent.Executor;
 public abstract class ImageApiTask extends JsonResponseHttpTask<ImageApiResult> {
     protected Integer pageNumber = null;
     protected String searchText = null;
+    protected Integer perPage = null;
+
+    public Integer getPerPage() {
+        return perPage;
+    }
+
+    public void setPerPage(Integer perPage) {
+        this.perPage = perPage;
+    }
 
     public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
