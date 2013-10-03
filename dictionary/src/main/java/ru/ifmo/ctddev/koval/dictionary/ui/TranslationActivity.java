@@ -2,16 +2,16 @@ package ru.ifmo.ctddev.koval.dictionary.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.concurrent.ExecutionException;
-
 import ru.ifmo.ctddev.koval.dictionary.R;
 import ru.ifmo.ctddev.koval.dictionary.imagedownload.ImageSearcherException;
 import ru.ifmo.ctddev.koval.dictionary.imagedownload.ImagesReflector;
 import ru.ifmo.ctddev.koval.dictionary.translate.Translator;
 import ru.ifmo.ctddev.koval.dictionary.translate.YandexTranslator;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author ndkoval
@@ -40,7 +40,12 @@ public class TranslationActivity extends Activity {
         translator = new YandexTranslator();
 
         setTranslation();
-        setImages();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                setImages();
+            }
+        }).run();
     }
 
     private void setTranslation() {
@@ -54,12 +59,8 @@ public class TranslationActivity extends Activity {
         ImagesReflector imagesReflector = new ImagesReflector((ListView) findViewById(R.id.image_list_view), this);
         try {
             imagesReflector.reflect(translatableWord);
-        } catch (ImageSearcherException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (ImageSearcherException | ExecutionException | InterruptedException e) {
+            Log.d("dictionary", e.getMessage());
         }
 
 
