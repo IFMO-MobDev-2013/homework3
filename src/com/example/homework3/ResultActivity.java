@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class ResultActivity extends Activity {
@@ -39,7 +40,7 @@ public class ResultActivity extends Activity {
             int offset = 0;
             while (head < amount) {
                 try {
-                    final String query = params[0];
+                    final String query = URLEncoder.encode(params[0], "utf-8");
                     URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?" +
                             "v=" + version + "&q=" + query + "&as_filetype=" + imgfmt +
                             "&rsz=" + resPerQuery + "&start=" + offset + "&imgsz=" + imgsz);
