@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_margin="10dp"
+        >
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Ваше слово:"
+            android:id="@+id/helperView1"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:textSize="21sp"
+            android:fontFamily="Georgia"
+            android:padding="10dp"
+            android:id="@+id/wordView"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Перевод:"
+            android:id="@+id/helperView2"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Переводим..."
+            android:textSize="21sp"
+            android:gravity="center"
+            android:fontFamily="Georgia"
+            android:padding="10dp"
+            android:id="@+id/translationView"
+            />
+</LinearLayout>
+
