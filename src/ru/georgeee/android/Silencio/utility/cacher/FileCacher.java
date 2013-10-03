@@ -1,6 +1,7 @@
 package ru.georgeee.android.Silencio.utility.cacher;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.util.HashSet;
@@ -16,15 +17,24 @@ import java.util.regex.Pattern;
  */
 public class FileCacher {
     private static FileCacher ourInstance = new FileCacher();
+    protected boolean useSdCardStorage = false;
+    protected Context context = null;
+    protected FileCacherDbManager dbManager;
+    HashSet<Long> fileIdSet;
+
+    private FileCacher() {
+    }
 
     public static FileCacher getInstance() {
         return ourInstance;
     }
 
-    protected Context context = null;
-    protected FileCacherDbManager dbManager;
+    public boolean isUseSdCardStorage() {
+        return useSdCardStorage;
+    }
 
-    private FileCacher() {
+    public void setUseSdCardStorage(boolean useSdCardStorage) {
+        this.useSdCardStorage = useSdCardStorage;
     }
 
     public void init(Context context, long byteLimit) {
@@ -35,19 +45,27 @@ public class FileCacher {
         }
     }
 
-    HashSet<Long> fileIdSet;
-
     public boolean rmFile(long fileId, String path) {
-        if (fileIdSet.contains(fileId)) return false;
+        Log.d(FileCacher.class.toString(), "rmFile(fileId="+fileId+", path="+path+")");
         File file = getFileById(fileId, path);
-        if (!file.exists() || (file.delete() && !file.exists())) return true;
+        if (file.exists()){
+            if(fileIdSet.contains(fileId)){
+                file.deleteOnExit();
+                return true;
+            }else{
+                return file.delete() && !file.exists();
+            }
+        }
         return false;
     }
 
     public File getCacheDir() {
-        File file = new File(context.getFilesDir(), "cache");
-//        File file = new File("/sdcard/Silencio", "cache");
-        if (!file.exists()) file.mkdir();
+        File file;
+        if (!useSdCardStorage)
+            file = new File(context.getFilesDir(), "cache");
+        else
+            file = new File("/sdcard/Silencio", "cache");
+        if (!file.exists()) file.mkdirs();
         return file;
     }
 

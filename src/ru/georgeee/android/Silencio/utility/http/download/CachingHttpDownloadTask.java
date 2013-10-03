@@ -33,10 +33,11 @@ public abstract class CachingHttpDownloadTask extends HttpTask<File> {
         String url = getUrl();
         FileCacher fileCacher = FileCacher.getInstance();
         File file = fileCacher.registerFile(url);
-        if (file.exists()) {
-            return file;
+        if (!file.exists()) {
+            file = super.doInBackground(params);
         }
-        return super.doInBackground(params);
+        fileCacher.launchCacheCleaner();
+        return file;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -65,7 +66,7 @@ public class FileCacherDbManager {
     public class FileCacherDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
         public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "fileCacher.db";
+        public static final String DATABASE_NAME = "fileCacherDatabase.db";
 
         public FileCacherDbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -139,11 +140,12 @@ public class FileCacherDbManager {
     }
 
     public void launchCacheCleaner() {
+        Log.d(FileCacherDbManager.class.toString(), "launchCacheCleaner() called");
         executorService.submit(new Runnable() {
             @Override
             public void run() {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
-                long byte_sum = db.query(
+                Cursor _cursor = db.query(
                         FileCacherContract.CacheEntry.TABLE_NAME,
                         new String[]{
                                 "SUM(" + FileCacherContract.CacheEntry.COLUMN_NAME_SIZE + ")"
@@ -153,7 +155,10 @@ public class FileCacherDbManager {
                         null,
                         null,
                         null
-                ).getLong(0);
+                );
+                _cursor.moveToNext();
+                long byte_sum = _cursor.getLong(0);
+                Log.d(FileCacherDbManager.class.toString(), "launchCacheCleaner(): byteSum="+byte_sum);
                 if (byte_sum > byteLimit) {
                     Cursor cursor = db.query(
                             FileCacherContract.CacheEntry.TABLE_NAME,  // The table to query
