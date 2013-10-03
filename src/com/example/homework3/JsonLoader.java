@@ -17,6 +17,8 @@ public class JsonLoader extends Thread
     private String translated = "";
     private JSONObject data = null;
     private Program parent = null;
+    private final static String KEY = "trnsl.1.1.20131003T151001Z.d29ccf314f9c4291.152604fcad2b63429bdca302baa4a4c9dc805334";
+
     public JsonLoader(String origin, Program parent)
     {
         this.origin = origin;
@@ -43,7 +45,6 @@ public class JsonLoader extends Thread
     {
         try
         {
-            String KEY = "trnsl.1.1.20131003T151001Z.d29ccf314f9c4291.152604fcad2b63429bdca302baa4a4c9dc805334";
             String imageurl = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" + KEY + "&text="+ URLEncoder.encode(origin, "utf-8")+"&lang=ru";
 
             URL url = new URL(imageurl);
@@ -52,8 +53,7 @@ public class JsonLoader extends Thread
             URLConnection connection = url.openConnection();
             String line;
             StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream())); //problem is here
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             while ((line = reader.readLine()) != null)
             {
                 builder.append(line);
