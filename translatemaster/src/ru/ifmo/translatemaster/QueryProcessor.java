@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -41,6 +42,10 @@ public class QueryProcessor extends Activity {
         textView.setText(result);
     }
 
+    private int dpToPx(int dp){
+        return (int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics()));
+    }
+
     private void setImages(ArrayList<Bitmap> bitmaps){
         GridView gridView = (GridView) findViewById(R.id.gridview);
         if(bitmaps == null){
@@ -52,10 +57,12 @@ public class QueryProcessor extends Activity {
         if(bitmaps.size() == 0){
             Toast.makeText(this, "Images weren't found", Toast.LENGTH_LONG).show();
         }
+        //deleting progressBar
         View progressBar = findViewById(R.id.progressBar);
         ViewGroup parent = (ViewGroup) progressBar.getParent();
         parent.removeView(progressBar);
-        gridView.setAdapter(new ImageAdapter(this, bitmaps, 250, 250, 0));
+        // 100 dp
+        gridView.setAdapter(new ImageAdapter(this, bitmaps, dpToPx(100), dpToPx(100), 0));
     }
 
     private class ImageReceiver extends AsyncTask<String, Void, ArrayList<Bitmap>>{
