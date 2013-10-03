@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -42,7 +45,18 @@ public class ImagesReflector {
 
         List<Bitmap> images = new ArrayList<>();
 
-        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, images);
+        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<Bitmap>(context, android.R.layout.simple_list_item_1, images){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView != null) {
+                    return convertView;
+                } else {
+                    ImageView imageView = new ImageView(context);
+                    imageView.setImageBitmap(getItem(position));
+                    return imageView;
+                }
+            }
+        };
         listView.setAdapter(adapter);
 
 

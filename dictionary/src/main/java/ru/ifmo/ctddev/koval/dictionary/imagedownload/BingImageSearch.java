@@ -87,10 +87,7 @@ public class BingImageSearch implements ImageSearcher{
 
     }
 
-//    @Override
-//    public List<ResponseImage> search(String text, int heightFilter, int widthFilter, int imageLimit) {
-//        return null;
-//    }
+//
 
 
     class AsyncSearchQuery extends AsyncTask<URL, Void, List<ResponseImage>> {
