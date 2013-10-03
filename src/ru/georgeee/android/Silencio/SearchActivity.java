@@ -2,6 +2,7 @@ package ru.georgeee.android.Silencio;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
@@ -16,7 +17,6 @@ public class SearchActivity extends Activity {
      */
     private ListView searchedImages;
     private TextView translate;
-    private Button searchButton;
     private EditText searchField;
     private InputMethodManager imm;
     private PicturesAdapter adapter;
@@ -45,7 +45,6 @@ public class SearchActivity extends Activity {
 
         searchedImages = (ListView) findViewById(R.id.images_result);
         translate = (TextView) findViewById(R.id.translate_result);
-        searchButton = (Button) findViewById(R.id.search_button);
         searchField = (EditText) findViewById(R.id.search_field);
 
         imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
@@ -56,11 +55,11 @@ public class SearchActivity extends Activity {
     }
 
     private void addListners() {
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (getSearchString().length() == 0)
-                    return;
+                    return true;
 
                 imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
 
@@ -80,6 +79,7 @@ public class SearchActivity extends Activity {
                 translateTask.execute();
 
                 setPictures(getSearchString());
+                return false;
             }
         });
 
