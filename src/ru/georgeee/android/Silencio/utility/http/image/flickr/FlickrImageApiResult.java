@@ -1,6 +1,5 @@
 package ru.georgeee.android.Silencio.utility.http.image.flickr;
 
-import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,12 +173,12 @@ public class FlickrImageApiResult extends ImageApiResult {
                         try {
 //                            Log.d("FlickrImageApiResult", sizes.getJSONObject(i).toString());
                             Size size = new Size(sizes.getJSONObject(i));
-                            if(size !=null) sizeList.add(size);
+                            if (size != null) sizeList.add(size);
                         } catch (JSONException ex) {
                             handleJSONException(ex, sizes.getJSONObject(i).toString());
                         }
                     }
-                    if(sizeList.isEmpty()) return null;
+                    if (sizeList.isEmpty()) return null;
                     Size[] result = new Size[sizeList.size()];
                     return sizeList.toArray(result);
                 } catch (JSONException e) {

@@ -4,9 +4,7 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiTask;
-import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
@@ -44,11 +42,12 @@ public class FlickrImageApiTask extends ImageApiTask {
             JSONObject jsonObject = jObject.getJSONObject("photos");
             result.setPageCount(jsonObject.getInt("pages"));
             result.setPageNumber(jsonObject.getInt("page"));
-            if(jsonObject.getString("total") == null) throw new JSONException("total is unexpectedly null");
+            Log.d("Flickr.totalCount", jsonObject.getString("total"));
+            if (jsonObject.getString("total") == null) throw new JSONException("total is unexpectedly null");
             result.setTotalImageCount(Integer.valueOf(jsonObject.getString("total")));
             JSONArray imageJSONArray = jsonObject.getJSONArray("photo");
             FlickrImageApiResult.FlickrImage[] images = new FlickrImageApiResult.FlickrImage[imageJSONArray.length()];
-            for(int i=0; i<images.length; ++i){
+            for (int i = 0; i < images.length; ++i) {
                 images[i] = new FlickrImageApiResult.FlickrImage();
                 images[i].parseFromJSON(imageJSONArray.getJSONObject(i));
             }
@@ -67,7 +66,7 @@ public class FlickrImageApiTask extends ImageApiTask {
         getParams.put("method", "flickr.photos.search");
         getParams.put("api_key", apiKey);
         getParams.put("text", searchText);
-        if(pageNumber != null) getParams.put("page", pageNumber.toString());
+        if (pageNumber != null) getParams.put("page", pageNumber.toString());
         getParams.put("format", "json");
         getParams.put("nojsoncallback", "1");
         try {

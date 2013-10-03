@@ -7,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import ru.georgeee.android.Silencio.R;
-import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
 import ru.georgeee.android.Silencio.utility.http.image.flickr.FlickrImageApiTask;
 
@@ -34,16 +32,16 @@ public class PicturesAdapter extends BaseAdapter {
     private int page = 0;
     private final int IMAGES_PER_PAGE = 100;
 
-    public void init(String searchRequest){
+    public void init(String searchRequest) {
         this.searchRequest = searchRequest;
         images.clear();
 
-        for (FlickrImageApiTask task:imageTasks) {
+        for (FlickrImageApiTask task : imageTasks) {
             task.cancel(true);
         }
         imageTasks.clear();
 
-        for (TwoPicturesModel model:list) {
+        for (TwoPicturesModel model : list) {
             model.cancel();
         }
         list.clear();
@@ -53,21 +51,25 @@ public class PicturesAdapter extends BaseAdapter {
         loadMore(10);
     }
 
-    public void loadMore(int position){
-        if (page * IMAGES_PER_PAGE / 2 > position)
+    public void loadMore(int position) {
+        if (searchRequest.isEmpty() || page * IMAGES_PER_PAGE / 2 > position)
             return;
         page++;
-        Log.e("wow", searchRequest);
-        Log.e("wow", FLICKR_API_KEY);
-        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest, page){
+        Log.d(PicturesAdapter.class.getCanonicalName(), "searchRequest: " + searchRequest);
+        Log.d(PicturesAdapter.class.getCanonicalName(), "flick api key: " + FLICKR_API_KEY);
+        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest, page) {
             @Override
             protected void onPostExecute(ImageApiResult imageApiResult) {
-                ImageApiResult.Image[] resultImages = imageApiResult.getImages();
-                for (int i = 0; i < resultImages.length; i++){
-                    images.add(resultImages[i]);
-                }
-                for (int i = 0; i < resultImages.length/2; i++){
-                    addItem();
+                if (imageApiResult == null) {
+                    Log.d(PicturesAdapter.class.getCanonicalName(), "ImageApiResult is null searchRequest:" + searchRequest + " page:" + page);
+                } else {
+                    ImageApiResult.Image[] resultImages = imageApiResult.getImages();
+                    for (int i = 0; i < resultImages.length; i++) {
+                        images.add(resultImages[i]);
+                    }
+                    for (int i = 0; i < resultImages.length / 2; i++) {
+                        addItem();
+                    }
                 }
                 imageTasks.remove(this);
                 notifyDataSetChanged();
@@ -77,7 +79,7 @@ public class PicturesAdapter extends BaseAdapter {
         imageTask.executeOnHttpTaskExecutor();
     }
 
-    public void addItem(){
+    public void addItem() {
         TwoPicturesModel item = new TwoPicturesModel(images.get(count * 2), images.get(count * 2 + 1));
         item.download();
         list.add(item);
@@ -98,10 +100,12 @@ public class PicturesAdapter extends BaseAdapter {
     public int getCount() {
         return count;
     }
+
     @Override
     public Object getItem(int position) {
         return position;
     }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -119,9 +123,10 @@ public class PicturesAdapter extends BaseAdapter {
         FLICKR_API_KEY = context.getString(R.string.flickr_api_key);
     }
 
-    private class ViewHolder{
+    private class ViewHolder {
         ImageView leftView, rightView;
         TwoPicturesModel model;
+
         public ViewHolder(ImageView leftView, ImageView rightView) {
             this.leftView = leftView;
             this.rightView = rightView;
@@ -132,17 +137,17 @@ public class PicturesAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.rowlayout, null);
-            ImageView leftView = (ImageView)convertView.findViewById(R.id.icon_left);
-            ImageView rightView = (ImageView)convertView.findViewById(R.id.icon_right);
+            ImageView leftView = (ImageView) convertView.findViewById(R.id.icon_left);
+            ImageView rightView = (ImageView) convertView.findViewById(R.id.icon_right);
             ViewHolder viewHolder = new ViewHolder(leftView, rightView);
             convertView.setTag(viewHolder);
             holder = viewHolder;
         } else {
-            holder = (ViewHolder)convertView.getTag();
-            if (holder.model != null)  {
+            holder = (ViewHolder) convertView.getTag();
+            if (holder.model != null) {
                 holder.model.cancel();
                 Log.e("fucj!", "converted view canceled");
             }

@@ -1,14 +1,12 @@
 package ru.georgeee.android.Silencio;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import org.json.JSONException;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateTask;
 import ru.georgeee.android.Silencio.utility.http.translate.yandex.YandexTranslateTask;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * This is a simple framework for a test of an Application.  See
@@ -38,13 +36,13 @@ public class TranslateTest extends InstrumentationTestCase {
 
     }
 
-    void assertTranslateResult(TranslateTask translateTask, String translation, String detectedLang) throws Exception{
+    void assertTranslateResult(TranslateTask translateTask, String translation, String detectedLang) throws Exception {
         TranslateResult translateResult = translateTask.executeOnHttpTaskExecutor().get();
         assertEquals(translateResult.getResult(), translation);
         assertEquals(translateResult.getLangDetected(), detectedLang);
     }
 
-    class MyYandexTranslateTask extends YandexTranslateTask{
+    class MyYandexTranslateTask extends YandexTranslateTask {
         MyYandexTranslateTask(String srcText, String toLanguage, String fromLanguage) {
             super(API_KEY, srcText, toLanguage, fromLanguage);
         }
@@ -65,7 +63,7 @@ public class TranslateTest extends InstrumentationTestCase {
 
         @Override
         protected void handleJSONException(JSONException ex, String context) {
-            super.handleJSONException(ex,context);
+            super.handleJSONException(ex, context);
             throw new RuntimeException(ex);
         }
     }

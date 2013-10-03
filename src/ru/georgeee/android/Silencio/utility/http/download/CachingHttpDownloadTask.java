@@ -5,7 +5,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.HttpTask;
-import ru.georgeee.android.Silencio.utility.http.HttpUtility;
 
 import java.io.File;
 import java.io.FileOutputStream;

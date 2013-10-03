@@ -29,7 +29,7 @@ public abstract class JsonResponseHttpTask<Result> extends HttpTask<Result> {
 
     protected void handleJSONException(JSONException ex, String context) {
         ex.printStackTrace();
-        System.err.println("Context (JSONException): "+context);
+        System.err.println("Context (JSONException): " + context);
     }
 
     protected abstract Result getResultByJson(JSONObject jsonObject);

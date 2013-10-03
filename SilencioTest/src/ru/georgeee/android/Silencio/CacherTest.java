@@ -45,7 +45,7 @@ public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity>
         FileCacher.getInstance().init(getActivity(), CACHE_BYTE_LIMIT);
         ImageApiResult result = new FlickrImageApiTask(ImageApiTest.API_KEY, "Apple").executeOnHttpTaskExecutor().get();
         ImageApiResult.Image[] images = result.getImages();
-        File[] files = new File[Math.min(5, images.length)];
+        File[] files = new File[Math.min(10, images.length)];
         SimpleCachingDownloadTask[] tasks = new SimpleCachingDownloadTask[files.length];
         for (int i = 0; i < files.length; ++i) {
             tasks[i] = new SimpleCachingDownloadTask(images[i].getSmallImageUrl()) {

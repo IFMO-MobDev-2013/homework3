@@ -79,10 +79,10 @@ public abstract class HttpTask<Result> extends AsyncTask<Void, Void, Result> {
     }
 
     protected void checkCancell() throws CanceledException {
-        if(isCancelled()) throw new CanceledException();
+        if (isCancelled()) throw new CanceledException();
     }
 
-    protected static class CanceledException extends Exception{
+    protected static class CanceledException extends Exception {
 
     }
 }

@@ -1,20 +1,14 @@
 package ru.georgeee.android.Silencio.utility.GUI;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ru.georgeee.android.Silencio.ImageActivity;
-import ru.georgeee.android.Silencio.R;
-import ru.georgeee.android.Silencio.SearchActivity;
 import ru.georgeee.android.Silencio.utility.http.download.SimpleCachingDownloadTask;
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
-import ru.georgeee.android.Silencio.utility.http.image.flickr.FlickrImageApiTask;
 
 import java.io.File;
 
@@ -40,7 +34,7 @@ public class TwoPicturesModel {
         this.rightImage = rightImage;
     }
 
-    public void setViews(ImageView leftView, ImageView rightView){
+    public void setViews(ImageView leftView, ImageView rightView) {
         this.leftView = leftView;
         this.rightView = rightView;
         leftView.setImageResource(0);
@@ -49,13 +43,13 @@ public class TwoPicturesModel {
         if (leftFile != null)
             leftView.setImageURI(Uri.fromFile(leftFile));
 
-        if(rightFile != null)
+        if (rightFile != null)
             rightView.setImageURI(Uri.fromFile(rightFile));
 
         setListeners();
     }
 
-    private void setListeners(){
+    private void setListeners() {
         leftView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +73,7 @@ public class TwoPicturesModel {
             @Override
             protected void onPostExecute(File file) {
                 leftFile = file;
-                if (leftView != null){
+                if (leftView != null) {
                     Log.e("LEFT", "end");
                     leftView.setImageURI(Uri.fromFile(leftFile));
                 }

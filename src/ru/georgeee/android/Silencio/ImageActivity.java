@@ -1,7 +1,6 @@
 package ru.georgeee.android.Silencio;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,9 +21,9 @@ import java.io.File;
 public class ImageActivity extends Activity {
     private static SimpleCachingDownloadTask downloadTask;
     private ImageView fullImage;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         Log.e("wow!", "started!!!!!!!!!!!!!!!!!!!1");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_actitvity);
@@ -34,7 +33,7 @@ public class ImageActivity extends Activity {
         if (downloadTask != null)
             downloadTask.cancel(true);
 
-        fullImage = (ImageView)findViewById(R.id.fullscreen_image);
+        fullImage = (ImageView) findViewById(R.id.fullscreen_image);
 
 
         downloadTask = new SimpleCachingDownloadTask(extra.getString("ImageUrl")) {

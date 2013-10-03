@@ -1,7 +1,6 @@
 package ru.georgeee.android.Silencio.utility.cacher;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.File;
 import java.util.HashSet;
@@ -65,7 +64,7 @@ public class FileCacher {
         dbManager.updateSize(path, size);
     }
 
-    public void launchCacheCleaner(){
+    public void launchCacheCleaner() {
         dbManager.launchCacheCleaner();
     }
 

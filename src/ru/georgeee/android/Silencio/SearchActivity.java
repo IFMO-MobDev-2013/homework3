@@ -6,13 +6,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import ru.georgeee.android.Silencio.utility.GUI.PicturesAdapter;
-import ru.georgeee.android.Silencio.utility.GUI.TwoPicturesModel;
 import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.yandex.YandexTranslateTask;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class SearchActivity extends Activity {
     /**
@@ -41,16 +37,18 @@ public class SearchActivity extends Activity {
         addListners();
 
     }
+
     private final static int CACHE_BYTE_LIMIT = 50 * 1024 * 1024;
+
     private void init() {
         FileCacher.getInstance().init(this, CACHE_BYTE_LIMIT);
 
-        searchedImages = (ListView)findViewById(R.id.images_result);
+        searchedImages = (ListView) findViewById(R.id.images_result);
         translate = (TextView) findViewById(R.id.translate_result);
         searchButton = (Button) findViewById(R.id.search_button);
         searchField = (EditText) findViewById(R.id.search_field);
 
-        imm = (InputMethodManager)getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
+        imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
 
         adapter = new PicturesAdapter(this, "");
         searchedImages.setAdapter(adapter);
@@ -61,7 +59,7 @@ public class SearchActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getSearchString().length() == 0)
+                if (getSearchString().length() == 0)
                     return;
                 setPictures(getSearchString());
 
@@ -71,7 +69,7 @@ public class SearchActivity extends Activity {
 
                 translate.setText(getSearchString());
 
-                translateTask = new YandexTranslateTask(YANDEX_API_KEY, getSearchString(), "ru"){
+                translateTask = new YandexTranslateTask(YANDEX_API_KEY, getSearchString(), "ru") {
                     @Override
                     protected void onPostExecute(TranslateResult translateResult) {
                         translate.setText(translateResult.getResult());
@@ -95,7 +93,7 @@ public class SearchActivity extends Activity {
                     return;
                 boolean loadMore = firstVisible + visibleCount >= totalCount - 25;
 
-                if(loadMore) {
+                if (loadMore) {
                     adapter.loadMore(firstVisible + 40);
                     adapter.notifyDataSetChanged();
                 }

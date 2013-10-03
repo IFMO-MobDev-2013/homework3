@@ -18,13 +18,14 @@ public class ImageApiTest extends ActivityInstrumentationTestCase2<SearchActivit
     public ImageApiTest() {
         super("ru.georgeee.android.Silencio", SearchActivity.class);
     }
+
     public static final String API_KEY = "c6e9f7d17d4a23a08281d34b482a2785";
 
     public void testImageApi() throws Exception {
-        FlickrImageApiResult result = (FlickrImageApiResult)new FlickrImageApiTask(API_KEY, "Магазинчик БО").executeOnHttpTaskExecutor().get();
+        FlickrImageApiResult result = (FlickrImageApiResult) new FlickrImageApiTask(API_KEY, "Магазинчик БО").executeOnHttpTaskExecutor().get();
 
-        for(final ImageApiResult.Image _image: result.getImages()){
-            final FlickrImageApiResult.FlickrImage image = (FlickrImageApiResult.FlickrImage)_image;
+        for (final ImageApiResult.Image _image : result.getImages()) {
+            final FlickrImageApiResult.FlickrImage image = (FlickrImageApiResult.FlickrImage) _image;
             image.asyncLoadSizes(new FlickrImageApiResult.FlickrImage.SizeLoadedHandler() {
                 @Override
                 protected void onPostExecute(FlickrImageApiResult.FlickrImage.Size[] sizes) {
