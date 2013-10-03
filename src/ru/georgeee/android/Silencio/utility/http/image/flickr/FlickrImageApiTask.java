@@ -41,15 +41,24 @@ public class FlickrImageApiTask extends ImageApiTask {
             Log.d("Flickr.totalCount", jObject.getJSONObject("photos").getString("total"));
             JSONObject jsonObject = jObject.getJSONObject("photos");
             result.setPageCount(jsonObject.getInt("pages"));
+
             result.setPageNumber(jsonObject.getInt("page"));
-            Log.d("Flickr.totalCount", jsonObject.getString("total"));
-            if (jsonObject.getString("total") == null) throw new JSONException("total is unexpectedly null");
-            result.setTotalImageCount(Integer.valueOf(jsonObject.getString("total")));
-            JSONArray imageJSONArray = jsonObject.getJSONArray("photo");
-            FlickrImageApiResult.FlickrImage[] images = new FlickrImageApiResult.FlickrImage[imageJSONArray.length()];
-            for (int i = 0; i < images.length; ++i) {
-                images[i] = new FlickrImageApiResult.FlickrImage();
-                images[i].parseFromJSON(imageJSONArray.getJSONObject(i));
+            String totalCnt = jsonObject.getString("total");
+            FlickrImageApiResult.FlickrImage[] images;
+            if (totalCnt.equals("null")) {
+                images = new FlickrImageApiResult.FlickrImage[]{};
+            } else {
+                try {
+                    result.setTotalImageCount(Integer.valueOf(totalCnt));
+                } catch (NumberFormatException ex) {
+                    throw new JSONException("Total count is unexpectedly NAN: " + totalCnt + " " + (totalCnt == null ? "" : totalCnt.getClass()));
+                }
+                JSONArray imageJSONArray = jsonObject.getJSONArray("photo");
+                images = new FlickrImageApiResult.FlickrImage[imageJSONArray.length()];
+                for (int i = 0; i < images.length; ++i) {
+                    images[i] = new FlickrImageApiResult.FlickrImage();
+                    images[i].parseFromJSON(imageJSONArray.getJSONObject(i));
+                }
             }
             result.setImages(images);
         } catch (JSONException e) {
