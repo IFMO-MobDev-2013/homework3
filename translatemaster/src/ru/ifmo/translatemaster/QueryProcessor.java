@@ -49,7 +49,7 @@ public class QueryProcessor extends Activity {
         if(bitmaps.size() == 0){
             Toast.makeText(this, "Images weren't found", Toast.LENGTH_LONG).show();
         }
-        gridView.setAdapter(new ImageAdapter(this, bitmaps, 200, 200, 0));
+        gridView.setAdapter(new ImageAdapter(this, bitmaps, 250, 250, 0));
     }
 
     private class ImageReceiver extends AsyncTask<String, Void, ArrayList<Bitmap>>{
