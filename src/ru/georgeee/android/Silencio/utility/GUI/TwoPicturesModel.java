@@ -103,7 +103,6 @@ public class TwoPicturesModel {
     }
 
     public void cancel() {
-        Log.e("wtf?", "cancel");
         if (leftView != null)
             leftView.setOnClickListener(null);
         if (rightView != null)
