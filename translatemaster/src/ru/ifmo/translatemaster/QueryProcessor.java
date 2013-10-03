@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +52,9 @@ public class QueryProcessor extends Activity {
         if(bitmaps.size() == 0){
             Toast.makeText(this, "Images weren't found", Toast.LENGTH_LONG).show();
         }
+        View progressBar = findViewById(R.id.progressBar);
+        ViewGroup parent = (ViewGroup) progressBar.getParent();
+        parent.removeView(progressBar);
         gridView.setAdapter(new ImageAdapter(this, bitmaps, 250, 250, 0));
     }
 
