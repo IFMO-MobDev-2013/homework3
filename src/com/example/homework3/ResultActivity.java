@@ -42,7 +42,7 @@ public class ResultActivity extends Activity {
                 try {
                     final String query = URLEncoder.encode(params[0], "utf-8");
                     URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?" +
-                            "v=" + version + "&q=" + query + "&as_filetype=" + imgfmt +
+                            "v=" + version + "&q=" + query + //"&as_filetype=" + imgfmt +
                             "&rsz=" + resPerQuery + "&start=" + offset + "&imgsz=" + imgsz);
                     URLConnection connection = url.openConnection();
                     String line;
@@ -114,6 +114,7 @@ public class ResultActivity extends Activity {
 
     private void downloadImages(String query, String translation) {
         textView = (TextView) findViewById(R.id.resTextView);
+        textView.setTextSize(40);
         listView = (ListView) findViewById(R.id.listView);
         myAdapter = new MyAdapter(this, R.layout.list_item);
         listView.setAdapter(myAdapter);
