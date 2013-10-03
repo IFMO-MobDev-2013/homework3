@@ -30,7 +30,7 @@ public class PicturesAdapter extends BaseAdapter {
     private List<ImageApiResult.Image> images;
     private List<FlickrImageApiTask> imageTasks;
     private int page = 0;
-    private final int IMAGES_PER_PAGE = 100;
+    private final int IMAGES_PER_PAGE = 10;
 
     public void init(String searchRequest) {
         this.searchRequest = searchRequest;
@@ -57,7 +57,7 @@ public class PicturesAdapter extends BaseAdapter {
         page++;
         Log.d(PicturesAdapter.class.getCanonicalName(), "searchRequest: " + searchRequest);
         Log.d(PicturesAdapter.class.getCanonicalName(), "flick api key: " + FLICKR_API_KEY);
-        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest, page) {
+        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest, page, IMAGES_PER_PAGE) {
             @Override
             protected void onPostExecute(ImageApiResult imageApiResult) {
                 if (imageApiResult == null) {
