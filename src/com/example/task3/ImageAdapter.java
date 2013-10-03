@@ -67,6 +67,8 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position,
                         View convertView, ViewGroup parent) {
         WebImageView img = new WebImageView(mContext);
+        img.setMaxHeight(100);
+        img.setMaxWidth(100);
         img.setImageUrl(pictures.get(position));
         return img;
     }
