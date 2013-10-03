@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="English version:"
-        android:textSize="14dp"
+        android:textSize="22dp"
         android:textStyle="italic" />
 
     <TextView
@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/englishVersionTextView"
-        android:text="" />
+        android:text="" 
+        android:textSize="22dp"/>
 
     <TextView
         android:id="@+id/russianVersionTextView"
@@ -27,7 +28,7 @@
         android:layout_alignLeft="@+id/englishVersionSourceTextView"
         android:layout_below="@+id/englishVersionSourceTextView"
         android:text="Russian version:"
-        android:textSize="14dp"
+        android:textSize="22dp"
         android:textStyle="italic" />
 
     <TextView
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/russianVersionTextView"
+        android:textSize="22dp"
         android:text="" />
 
 </RelativeLayout>
