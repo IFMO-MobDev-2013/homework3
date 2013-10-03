@@ -16,10 +16,16 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<Bitmap> bitmaps;
+    private int width;
+    private int height;
+    private int paddings;
 
-    public ImageAdapter(Context c, ArrayList<Bitmap> bitmaps) {
+    public ImageAdapter(Context c, ArrayList<Bitmap> bitmaps, int width, int height, int paddings) {
         mContext = c;
         this.bitmaps = bitmaps;
+        this.width = width;
+        this.height = height;
+        this.paddings = paddings;
     }
 
     @Override
@@ -48,9 +54,9 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(150, 150));
+            imageView.setLayoutParams(new GridView.LayoutParams(width, height));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            imageView.setPadding(paddings, paddings, paddings, paddings);
         } else {
             imageView = (ImageView) convertView;
         }

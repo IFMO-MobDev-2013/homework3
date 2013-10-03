@@ -44,8 +44,12 @@ public class QueryProcessor extends Activity {
             gridView.setNumColumns(1);
             bitmaps = new ArrayList<Bitmap>();
             bitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.error));
+            Toast.makeText(this, "Error occurred while receiving images", Toast.LENGTH_LONG).show();
         }
-        gridView.setAdapter(new ImageAdapter(this, bitmaps));
+        if(bitmaps.size() == 0){
+            Toast.makeText(this, "Images weren't found", Toast.LENGTH_LONG).show();
+        }
+        gridView.setAdapter(new ImageAdapter(this, bitmaps, 200, 200, 0));
     }
 
     private class ImageReceiver extends AsyncTask<String, Void, ArrayList<Bitmap>>{
@@ -81,7 +85,7 @@ public class QueryProcessor extends Activity {
                     try{
                         bitmaps.add(getBitmap(matcher.group(1)));
                     } catch (IOException e){
-                        // Trying receive other pic
+                        // Trying receive other pics
                         --i;
                     }
                 }
