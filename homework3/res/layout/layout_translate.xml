@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/source"
+            android:layout_gravity="left|top"
+            android:layout_marginTop="38dp"
+            android:layout_marginLeft="13dp"
+            android:textColor="#FFFFFF" />
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/translated"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="13dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="107dp" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/oldText"
+            android:id="@+id/englishVersion"
+            android:layout_gravity="left|top"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="12dp"
+            android:textColor="#FFFFFF" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/newText"
+            android:id="@+id/russianVersion"
+            android:layout_gravity="left|top"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="12dp"
+            android:textColor="#FFFFFF" />
+
+    <ListView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/viewImages"
+            android:layout_marginTop="130dp"
+            />
+</FrameLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Translator</string>
+    <string name="action_settings">Settings</string>
+    <string name="newText">Translation of your word is: </string>
+    <string name="oldText">Your word was: </string>
+    <string name="textButton">Translate</string>
+    <string name="welcome">Enter the word that you want to translate</string>
+    <string name="enter">Type your word here...</string>
+    <string name="cache_dirname">ImgApp_Cache</string>
+</resources>
