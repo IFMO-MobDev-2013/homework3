@@ -61,7 +61,8 @@ public class SearchActivity extends Activity {
             public void onClick(View v) {
                 if (getSearchString().length() == 0)
                     return;
-                setPictures(getSearchString());
+
+                imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
 
                 if (translateTask != null) {
                     translateTask.cancel(true);
@@ -78,7 +79,7 @@ public class SearchActivity extends Activity {
 
                 translateTask.execute();
 
-                imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
+                setPictures(getSearchString());
             }
         });
 
@@ -91,10 +92,10 @@ public class SearchActivity extends Activity {
             public void onScroll(AbsListView view, int firstVisible, int visibleCount, int totalCount) {
                 if (getSearchString().length() == 0)
                     return;
-                boolean loadMore = firstVisible + visibleCount >= totalCount - 25;
+                boolean loadMore = firstVisible + visibleCount >= totalCount - visibleCount /2;
 
                 if (loadMore) {
-                    adapter.loadMore(firstVisible + 40);
+                    adapter.loadMore(firstVisible + visibleCount * 2);
                     adapter.notifyDataSetChanged();
                 }
             }

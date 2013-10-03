@@ -11,6 +11,7 @@ import ru.georgeee.android.Silencio.utility.http.download.SimpleCachingDownloadT
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created with IntelliJ IDEA.
