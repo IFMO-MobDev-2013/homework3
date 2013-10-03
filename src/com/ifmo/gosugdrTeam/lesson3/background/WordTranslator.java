@@ -1,4 +1,4 @@
-package com.ifmo.gosugdrTeam.lesson3.background;
+package com.java.android.dronov.translator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,9 +26,10 @@ public class WordTranslator {
 
     public WordTranslator(String query) {
         String curString = null;
+        String newQuery = query.replaceAll(" ", "%20");
         try {
             URL url = new URL("https://translate.yandex.net/api/v1.5/tr.json/translate?key=" + API_KEY +
-                    "&lang=" + LANG + "&text=" + query);
+                    "&lang=" + LANG + "&text=" + newQuery);
             URLConnection urlConnection = url.openConnection();
             StringBuilder builder = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -38,6 +39,7 @@ public class WordTranslator {
                 builder.append(curString);
                 curString = reader.readLine();
             }
+
             JSONObject json = new JSONObject(builder.toString());
             JSONArray array = json.getJSONArray("text");
             answer = array.getString(0);

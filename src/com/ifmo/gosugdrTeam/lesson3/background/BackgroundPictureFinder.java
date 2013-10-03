@@ -1,6 +1,12 @@
 package com.ifmo.gosugdrTeam.lesson3.background;
 
+import java.util.Arrays;
+
+import com.ifmo.gosugdrTeam.lesson3.AppSectionsPagerAdapter;
+import com.ifmo.gosugdrTeam.lesson3.Request;
+
 import android.os.AsyncTask;
+import android.util.Log;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,4 +25,11 @@ public class BackgroundPictureFinder extends AsyncTask<String, Void, String[]> {
         return imageURL;
     }
 
+    @Override
+    protected void onPostExecute(String[] result) {
+    	Request.setImages(result);
+    	Log.i("pictures", Arrays.toString(result));
+    	AppSectionsPagerAdapter.updateImagesFragment();
+    }
+    
 }

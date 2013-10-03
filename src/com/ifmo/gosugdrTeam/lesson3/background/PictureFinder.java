@@ -1,5 +1,6 @@
-package com.ifmo.gosugdrTeam.lesson3.background;
+package com.java.android.dronov.translator;
 
+import android.graphics.Bitmap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,6 +8,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -18,11 +20,11 @@ import java.net.URLConnection;
  * To change this template use File | Settings | File Templates.
  */
 public class PictureFinder {
+
     public static final int PICTURES_COUNT = 10;
-    private final static String KEY = "AIzaSyDpcRCDD60VhR_nsXT9zpRcgfYWy8mudeI";
+    private final static String KEY = "IzaSyCQsdOFIXEuee3mAL2z8_VKitws5XkCMvo";
     private final static String ENGINE = "006645901772524591837:w8edr7u5t1c";
     private String[] imageURL;
-
     public PictureFinder(String query) {
         imageURL = new String[PICTURES_COUNT];
         String currentBufferString;
@@ -41,9 +43,9 @@ public class PictureFinder {
                 builder.append(currentBufferString);
             }
             JSONObject json = new JSONObject(builder.toString());
-            JSONArray jsonResult = json.getJSONArray("items");
-            for (int i = 0; i < jsonResult.length(); i++) {
-                imageURL[i] = new URL(jsonResult.getJSONObject(i).getString("link")).toString();
+            JSONArray array = json.getJSONArray("items");
+            for (int i = 0; i < array.length(); i++) {
+                imageURL[i] = new URL(array.getJSONObject(i).getString("link")).toString();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +53,6 @@ public class PictureFinder {
             e.printStackTrace();
         }
     }
-
     public String[] getAnswer() {
         return imageURL;
     }

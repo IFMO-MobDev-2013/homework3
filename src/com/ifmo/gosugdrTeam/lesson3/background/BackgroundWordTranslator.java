@@ -1,5 +1,8 @@
 package com.ifmo.gosugdrTeam.lesson3.background;
 
+import com.ifmo.gosugdrTeam.lesson3.AppSectionsPagerAdapter;
+import com.ifmo.gosugdrTeam.lesson3.Request;
+
 import android.os.AsyncTask;
 
 /**
@@ -19,4 +22,11 @@ public class BackgroundWordTranslator extends AsyncTask<String, Void, String> {
         return result;
     }
 
+    @Override
+    protected void onPostExecute(String result) {
+//    	super.onPostExecute(result);
+    	Request.setTranslation(result);
+    	AppSectionsPagerAdapter.updateTranslateFragment();
+    }
+    
 }
