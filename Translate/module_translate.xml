@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_translate" default="compile.module.translate">
+  <dirname property="module.translate.basedir" file="${ant.file.module_translate}"/>
+  
+  <property name="module.jdk.home.translate" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.translate" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.translate" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.translate" value="${compiler.args}"/>
+  
+  <property name="translate.output.dir" value="${module.translate.basedir}/out/production/Translate"/>
+  <property name="translate.testoutput.dir" value="${module.translate.basedir}/out/test/Translate"/>
+  
+  <path id="translate.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="translate.module.production.classpath">
+    <path refid="${module.jdk.classpath.translate}"/>
+  </path>
+  
+  <path id="translate.runtime.production.module.classpath">
+    <pathelement location="${translate.output.dir}"/>
+  </path>
+  
+  <path id="translate.module.classpath">
+    <path refid="${module.jdk.classpath.translate}"/>
+    <pathelement location="${translate.output.dir}"/>
+  </path>
+  
+  <path id="translate.runtime.module.classpath">
+    <pathelement location="${translate.testoutput.dir}"/>
+    <pathelement location="${translate.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.translate">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.translate">
+    <patternset refid="excluded.from.module.translate"/>
+  </patternset>
+  
+  <path id="translate.module.sourcepath">
+    <dirset dir="${module.translate.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.translate" depends="compile.module.translate.production,compile.module.translate.tests" description="Compile module Translate"/>
+  
+  <target name="compile.module.translate.production" depends="register.custom.compilers" description="Compile module Translate; production classes">
+    <mkdir dir="${translate.output.dir}"/>
+    <javac2 destdir="${translate.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.translate}/javac">
+      <compilerarg line="${compiler.args.translate}"/>
+      <bootclasspath refid="translate.module.bootclasspath"/>
+      <classpath refid="translate.module.production.classpath"/>
+      <src refid="translate.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.translate"/>
+    </javac2>
+    
+    <copy todir="${translate.output.dir}">
+      <fileset dir="${module.translate.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.translate.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.translate.tests" depends="register.custom.compilers,compile.module.translate.production" description="compile module Translate; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.translate" description="cleanup module">
+    <delete dir="${translate.output.dir}"/>
+    <delete dir="${translate.testoutput.dir}"/>
+  </target>
+</project>
