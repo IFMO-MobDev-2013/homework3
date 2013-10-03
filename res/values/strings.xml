@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slate</string>
+    <string name="edtWordInput_hint">What to translate?</string>
+    <string name="btnTranslate_hint">Translate</string>
+    <string name="tstTranslationFailed_text">No translation</string>
+    <string name="lytProgressIndicator_title">Translating</string>
+</resources>
