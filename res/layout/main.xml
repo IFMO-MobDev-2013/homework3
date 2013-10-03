@@ -4,10 +4,19 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Hello World, FirstActivity"
-            />
+
+    <EditText
+            android:id="@+id/textField"
+        android:layout_width = "match_parent"
+        android:layout_height="wrap_content"
+
+        />
+    <Button
+        android:layout_width = "match_parent"
+        android:layout_height="wrap_content"
+        android:padding="100dp"
+        android:text="Перевести"
+        android:onClick="onButtonClick"
+        />
 </LinearLayout>
 
