@@ -128,6 +128,6 @@ public class ResultActivity extends Activity {
         super.onCreate(bundle);
         setContentView(R.layout.result);
         Intent intent = getIntent();
-        downloadImages(intent.getStringExtra("query"), intent.getStringExtra("translation"));
+        downloadImages(intent.getStringExtra("query"), intent.getStringExtra("translated"));
     }
 }
