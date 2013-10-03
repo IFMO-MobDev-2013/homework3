@@ -2,4 +2,5 @@
 <resources>
     <color name="background">#FFDD73</color>
     <color name="text">#A62000</color>
+    <color name="translate_field">#ffff00</color>
 </resources>

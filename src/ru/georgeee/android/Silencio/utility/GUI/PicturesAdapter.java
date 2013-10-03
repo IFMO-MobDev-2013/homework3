@@ -1,18 +1,18 @@
 package ru.georgeee.android.Silencio.utility.GUI;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ru.georgeee.android.Silencio.R;
+import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
+import ru.georgeee.android.Silencio.utility.http.image.flickr.FlickrImageApiTask;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,22 +25,61 @@ import java.util.List;
  */
 public class PicturesAdapter extends BaseAdapter {
     private List<TwoPicturesModel> list;
+
+    private String FLICKR_API_KEY;
+    private FlickrImageApiTask imageTask;
+    private List<ImageApiResult.Image> images;
+    private List<FlickrImageApiTask> imageTasks;
+    private int page = 0;
+    private final int IMAGES_PER_PAGE = 100;
+
     public void init(String searchRequest){
         this.searchRequest = searchRequest;
+        images.clear();
+
+        for (FlickrImageApiTask task:imageTasks) {
+            task.cancel(true);
+        }
+        imageTasks.clear();
+
+        for (TwoPicturesModel model:list) {
+            model.cancel();
+        }
         list.clear();
+
+        page = 0;
         count = 0;
-        addItems(10);
+        loadMore(10);
+    }
+
+    public void loadMore(int position){
+        if (page * IMAGES_PER_PAGE / 2 > position)
+            return;
+
+        page++;
+        Log.e("wow", searchRequest);
+        Log.e("wow", FLICKR_API_KEY);
+        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest){
+            @Override
+            protected void onPostExecute(ImageApiResult imageApiResult) {
+                ImageApiResult.Image[] resultImages = imageApiResult.getImages();
+                for (int i = 0; i < resultImages.length; i++){
+                    images.add(resultImages[i]);
+                    if (i % 2 == 1) {
+                        addItem();
+                    }
+                }
+                imageTasks.remove(this);
+                notifyDataSetChanged();
+            }
+        };
+        imageTasks.add(imageTask);
+        imageTask.execute();
     }
 
     public void addItem(){
-        list.add(new TwoPicturesModel(count, searchRequest));
+        list.add(new TwoPicturesModel(images.get(count * 2), images.get(count * 2 + 1)));
         count++;
-    }
-
-    public void addItems(int count) {
-        for (int i = 0; i < count; i++){
-            addItem();
-        }
     }
 
     private Activity context;
@@ -71,15 +110,13 @@ public class PicturesAdapter extends BaseAdapter {
         this.context = context;
         this.searchRequest = searchRequest;
         list = new LinkedList<TwoPicturesModel>();
+        images = new ArrayList<ImageApiResult.Image>();
+        imageTasks = new LinkedList<FlickrImageApiTask>();
         count = 0;
+
+        FLICKR_API_KEY = context.getString(R.string.flickr_api_key);
     }
 
-
-
-    static class ViewHolder {
-        protected ImageView left_image;
-        protected ImageView right_image;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -87,23 +124,16 @@ public class PicturesAdapter extends BaseAdapter {
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
             view = inflater.inflate(R.layout.rowlayout, null);
-            final ViewHolder viewHolder = new ViewHolder();
-            viewHolder.left_image = (ImageView)view.findViewById(R.id.icon_left);
-            viewHolder.right_image = (ImageView)view.findViewById(R.id.icon_right);
-            view.setTag(viewHolder);
+            ImageView leftView = (ImageView)view.findViewById(R.id.icon_left);
+            ImageView rightView = (ImageView)view.findViewById(R.id.icon_right);
+            list.get(position).setViews(leftView, rightView);
+            view.setTag(list.get(position));
         } else {
             view = convertView;
         }
 
-        ViewHolder holder = (ViewHolder) view.getTag();
-        holder.left_image.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
-        holder.right_image.setImageBitmap(list.get(position).getRightImage());
-
-        //this should be removed
-        {
-            TextView label = (TextView)view.findViewById(R.id.label);
-            label.setText(searchRequest);
-        }
+        TwoPicturesModel currentModel = (TwoPicturesModel)view.getTag();
+        currentModel.download();
 
         return view;
     }

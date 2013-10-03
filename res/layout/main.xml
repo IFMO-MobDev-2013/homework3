@@ -35,9 +35,10 @@
             android:id="@+id/translate_result"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_margin="10dp"
+            android:padding="1dp"
             android:textSize="45dp"
-            android:textColor="@color/text">
+            android:textColor="@color/text"
+            android:background="@color/translate_field">
     </TextView>
 
     <ListView

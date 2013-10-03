@@ -6,14 +6,12 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import ru.georgeee.android.Silencio.utility.GUI.PicturesAdapter;
-import ru.georgeee.android.Silencio.utility.GUI.TranslateSetter;
 import ru.georgeee.android.Silencio.utility.GUI.TwoPicturesModel;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.yandex.YandexTranslateTask;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class SearchActivity extends Activity {
     /**
@@ -25,13 +23,18 @@ public class SearchActivity extends Activity {
     private EditText searchField;
     private InputMethodManager imm;
     private PicturesAdapter adapter;
-    private TranslateSetter translateSetter = new TranslateSetter(null, null, "");
+    private YandexTranslateTask translateTask;
+
+    private String YANDEX_API_KEY, FLICKR_API_KEY;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        YANDEX_API_KEY = getString(R.string.yandex_translate_api_key);
+        FLICKR_API_KEY = getString(R.string.flickr_api_key);
 
         init();
         addListners();
@@ -43,17 +46,10 @@ public class SearchActivity extends Activity {
         translate = (TextView) findViewById(R.id.translate_result);
         searchButton = (Button) findViewById(R.id.search_button);
         searchField = (EditText) findViewById(R.id.search_field);
+
         imm = (InputMethodManager)getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
 
-        List<TwoPicturesModel> list = new LinkedList<TwoPicturesModel>();
-
-        //this should be removed
-        {
-            list.add(new TwoPicturesModel(0, ""));
-        }
-
         adapter = new PicturesAdapter(this, "");
-
         searchedImages.setAdapter(adapter);
 
     }
@@ -66,8 +62,20 @@ public class SearchActivity extends Activity {
                     return;
                 setPictures(getSearchString());
 
-                translateSetter = new TranslateSetter(getBaseContext(), translate, getSearchString());
-                translateSetter.execute();
+                if (translateTask != null) {
+                    translateTask.cancel(true);
+                }
+
+                translate.setText(getSearchString());
+
+                translateTask = new YandexTranslateTask(YANDEX_API_KEY, getSearchString(), "ru"){
+                    @Override
+                    protected void onPostExecute(TranslateResult translateResult) {
+                        translate.setText(translateResult.getResult());
+                    }
+                };
+
+                translateTask.execute();
 
                 imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
             }
@@ -80,10 +88,12 @@ public class SearchActivity extends Activity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisible, int visibleCount, int totalCount) {
-                boolean loadMore = firstVisible + visibleCount >= totalCount;
+                if (getSearchString().length() == 0)
+                    return;
+                boolean loadMore = firstVisible + visibleCount >= totalCount - 25;
 
                 if(loadMore) {
-                    adapter.addItems(visibleCount * 3);
+                    adapter.loadMore(firstVisible + 50);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -97,6 +107,5 @@ public class SearchActivity extends Activity {
 
     private void setPictures(String searchRequest) {
         adapter.init(searchRequest);
-        adapter.notifyDataSetChanged();
     }
 }

@@ -8,9 +8,9 @@
             android:id="@+id/icon_left"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_launcher" >
     </ImageView>
 
@@ -18,18 +18,10 @@
             android:id="@+id/icon_right"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_launcher" >
     </ImageView>
-
-    <TextView
-            android:id="@+id/label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@+id/label"
-            android:textSize="20px" >
-    </TextView>
 
 </LinearLayout>
