@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by vladimirskipor on 10/3/13.
  */
-public class BingImageSearch {
+public class BingImageSearch implements ImageSearcher{
 
 
     private static final String ENCODING_CHARSET = "UTF-8";
@@ -40,7 +40,7 @@ public class BingImageSearch {
     private final int defaultImageLimit;
 
 
-    public BingImageSearch(int defaultHeightFilter, int defaultWidthFilter, int defaultImageLimit) throws UnsupportedEncodingException {
+    public BingImageSearch(int defaultHeightFilter, int defaultWidthFilter, int defaultImageLimit) {
         this.defaultHeightFilter = defaultHeightFilter;
         this.defaultWidthFilter = defaultWidthFilter;
         this.defaultImageLimit = defaultImageLimit;
@@ -86,6 +86,11 @@ public class BingImageSearch {
 
 
     }
+
+//    @Override
+//    public List<ResponseImage> search(String text, int heightFilter, int widthFilter, int imageLimit) {
+//        return null;
+//    }
 
 
     class AsyncSearchQuery extends AsyncTask<URL, Void, List<ResponseImage>> {
