@@ -158,7 +158,7 @@ public class FileCacherDbManager {
                 );
                 _cursor.moveToNext();
                 long byte_sum = _cursor.getLong(0);
-                Log.d(FileCacherDbManager.class.toString(), "launchCacheCleaner(): byteSum="+byte_sum);
+                Log.d(FileCacherDbManager.class.toString(), "launchCacheCleaner(): byteSum="+byte_sum+" byteLimit="+byteLimit);
                 if (byte_sum > byteLimit) {
                     Cursor cursor = db.query(
                             FileCacherContract.CacheEntry.TABLE_NAME,  // The table to query
@@ -174,6 +174,7 @@ public class FileCacherDbManager {
                             FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID + " ASC",   // The sort order
                             String.valueOf(trimCachesLimit)
                     );
+                    Log.d(FileCacherDbManager.class.toString(), "launchCacheCleaner(): Received file entries: "+cursor.getCount());
                     long lastDeletedFileId = -1;
                     while (byte_sum > downByteLimit && cursor.moveToNext()) {
                         lastDeletedFileId = cursor.getLong(0);
