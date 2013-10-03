@@ -1,4 +1,3 @@
-!*.apk
 # built application files
 *.ap_
 
@@ -23,3 +22,4 @@ local.properties
 # IDEA project files
 .idea/
 *.iml
+!out/production/Trans/Trans.apk
