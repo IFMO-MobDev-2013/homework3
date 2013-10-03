@@ -1,5 +1,5 @@
 # built application files
-*.ap_
+#*.ap_
 
 # files for the dex VM
 *.dex
@@ -8,7 +8,7 @@
 *.class
 
 # generated files
-bin/
+#bin/
 gen/
 build/
 
@@ -22,3 +22,7 @@ local.properties
 # IDEA project files
 .idea/
 *.iml
+build.xml
+ant.properties
+proguard-project.txt
+
