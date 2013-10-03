@@ -1,5 +1,6 @@
 package com.example.task3;
 
+import android.os.AsyncTask;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
  * Time: 18:00
  * To change this template use File | Settings | File Templates.
  */
-public class BingImageSearch {
+public class BingImageSearch extends AsyncTask<String, Void, String> {
 
     private static final String BING_SEARCH = "https://api.datamarket.azure.com/Bing/Search/v1/Composite" +
             "?Sources=%%27image%%27" +
@@ -30,35 +32,36 @@ public class BingImageSearch {
             "&$top=" + "%d";
     private static final String accountKey = "pYurF1x1xr+c7M0F6TLbl7KySmVMbphBJPLR0HwTZug=";
 
-    public List<String> execute(String query) throws IOException, JSONException {
+    @Override
+    protected String doInBackground(String... params) {
 
         byte[] accountKeyBytes = Base64.encodeBase64((accountKey + ":" + accountKey).getBytes());
         String accountKeyEnc = new String(accountKeyBytes);
 
-        String bingUrl = String.format(BING_SEARCH, URLEncoder.encode(query, "UTF-8"), 10);
+        String bingUrl = null;
+        try {
+            bingUrl = String.format(BING_SEARCH, URLEncoder.encode(params[0], "UTF-8"), 10);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         HttpGet getRequest = new HttpGet(bingUrl);
         getRequest.setHeader("Authorization", "Basic " + accountKeyEnc);
         getRequest.setHeader("Accept", "application/json");
-        HttpResponse httpResponse = new DefaultHttpClient().execute(getRequest);
+        HttpResponse httpResponse = null;
+        try {
+            httpResponse = new DefaultHttpClient().execute(getRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         StringWriter stringWriter = new StringWriter();
-        IOUtils.copy(httpResponse.getEntity().getContent(), stringWriter, "UTF-8");
+        try {
+            IOUtils.copy(httpResponse.getEntity().getContent(), stringWriter, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String content = stringWriter.toString();
 
-        JSONArray results = new JSONObject(content).getJSONObject("d").getJSONArray("results");
-        List<String> resultImages = new ArrayList<String>();
-        for (int i = 0; i < results.length(); i++) {
-            JSONObject object = results.getJSONObject(i);
-            JSONArray images = object.getJSONArray("Image");
-            for (int j = 0; j < images.length(); j++) {
-                JSONObject image = images.getJSONObject(j);
-
-                String imageUrl = image.getString("MediaUrl");
-                String resultImage = imageUrl;
-                resultImages.add(resultImage);
-            }
-        }
-        return resultImages;
+        return content;
     }
-
 }

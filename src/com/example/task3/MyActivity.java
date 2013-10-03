@@ -6,12 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MyActivity extends Activity {
@@ -19,6 +22,8 @@ public class MyActivity extends Activity {
 
     private EditText text;
     private String translation;
+    private List<String> pictures;
+    private String picturesJson;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,10 @@ public class MyActivity extends Activity {
         setContentView(R.layout.main);
 
         text = (EditText) findViewById(R.id.edittext);
-
+        pictures = new ArrayList<String>();
     }
 
-    public void translate(View v) throws ExecutionException, InterruptedException {
+    public void translate(View v) throws ExecutionException, InterruptedException, IOException, JSONException {
         String s = text.getText().toString();
         String url = "https://translate.yandex.net/api/v1.5/tr.json/translate?";
         String key = "trnsl.1.1.20131002T144452Z.f718a5af8df14902.0b24c2be2db4394d4d204076387ca0cfb13db599";
@@ -37,12 +42,17 @@ public class MyActivity extends Activity {
         String lang = "ru";
         url = url + "&key=" + key + "&text=" + text + "&lang=" + lang;
         translation = new Translator().execute(url).get();
+
+        BingImageSearch bis = new BingImageSearch();
+        picturesJson = bis.execute(text).get();
+
         changeActivity(v);
     }
 
     public void changeActivity(View v) {
         Intent i = new Intent(MyActivity.this, SecondActivity.class);
         i.putExtra("translation", translation);
+        i.putExtra("pictures", picturesJson);
         startActivity(i);
         finish();
     }
@@ -62,7 +72,9 @@ public class MyActivity extends Activity {
                 json = new JSONObject(jsonText);
                 translation = json.getString("text");
                 translation = translation.substring(2, translation.length() - 2);
-            } catch (IOException | JSONException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e){
                 e.printStackTrace();
             }
 
