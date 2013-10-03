@@ -25,6 +25,12 @@ public class FlickrImageApiTask extends ImageApiTask {
         this.searchText = searchText;
         this.pageNumber = pageNum;
     }
+    public FlickrImageApiTask(String apiKey, String searchText, int pageNum, int perPage) {
+        this.apiKey = apiKey;
+        this.searchText = searchText;
+        this.pageNumber = pageNum;
+        this.perPage = perPage;
+    }
 
     public FlickrImageApiTask(String apiKey) {
         this.apiKey = apiKey;
