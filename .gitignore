@@ -22,3 +22,7 @@ local.properties
 # IDEA project files
 .idea/
 *.iml
+build.xml
+ant.properties
+proguard-project.txt
+
