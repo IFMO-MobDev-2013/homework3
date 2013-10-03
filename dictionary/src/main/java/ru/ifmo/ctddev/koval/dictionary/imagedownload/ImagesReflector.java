@@ -42,12 +42,12 @@ public class ImagesReflector {
 
         List<Bitmap> images = new ArrayList<>();
 
-        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<Bitmap>(context, android.R.layout.simple_list_item_1, images);
+        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, images);
         listView.setAdapter(adapter);
 
 
-        for (ListIterator<ResponseImage> iterator = responseImageList.listIterator(); iterator.hasNext(); ) {
-            ResponseImage responseImage = iterator.next();
+
+        for(ResponseImage responseImage : responseImageList){
             AsyncBitmapDownloader asyncBitmapDownloader = new AsyncBitmapDownloader();
             asyncBitmapDownloader.execute(responseImage.getImageURL());
             Bitmap downloadedImage = asyncBitmapDownloader.get();
@@ -70,8 +70,7 @@ public class ImagesReflector {
                 connection.connect();
                 InputStream input = connection.getInputStream();
 
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+                return BitmapFactory.decodeStream(input);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -79,6 +78,3 @@ public class ImagesReflector {
         }
     }
 }
-
-
-
