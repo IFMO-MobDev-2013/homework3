@@ -16,13 +16,14 @@
             android:id="@+id/editText"
             android:layout_gravity="center"
             android:autoText="false" android:minWidth="250dp" android:hint="type here" android:singleLine="true"
-            android:layout_marginTop="10dp"/>
+            />
     <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/translate"
             android:layout_gravity="center"
-            android:src="@drawable/translate_button" android:background="@null" android:layout_marginTop="5dp"/>
+            android:src="@drawable/translate_button" android:background="@null" android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"/>
 
 </LinearLayout>
 
