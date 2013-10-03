@@ -8,7 +8,9 @@ import ru.georgeee.android.Silencio.utility.http.HttpTask;
 import ru.georgeee.android.Silencio.utility.http.HttpUtility;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +30,7 @@ public abstract class CachingHttpDownloadTask extends HttpTask<File> {
     }
 
     @Override
-    protected File doInBackground(Object... params) {
+    protected File doInBackground(Void... params) {
         String url = getUrl();
         FileCacher fileCacher = FileCacher.getInstance();
         File file = fileCacher.registerFile(url);
@@ -39,15 +41,52 @@ public abstract class CachingHttpDownloadTask extends HttpTask<File> {
     }
 
     @Override
-    protected File getResult(HttpResponse httpResponse) throws IOException {
+    protected File getResult(HttpResponse httpResponse) throws IOException, CanceledException {
         String url = getUrl();
         FileCacher fileCacher = FileCacher.getInstance();
         File file = fileCacher.registerFile(url);
         if (file.exists()) {
             return file;
         }
-        HttpUtility.getInstance().readInputStreamIntoFile(httpResponse.getEntity().getContent(), file);
+        readInputStreamIntoFile(httpResponse.getEntity().getContent(), file);
         fileCacher.updateSize(url, file.length());
+        checkCancell();
+        fileCacher.launchCacheCleaner();
         return file;
     }
+
+    protected void readInputStreamIntoFile(InputStream inputStream, File file) throws IOException, CanceledException {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file);
+            if (!file.exists()) file.createNewFile();
+            int read = 0;
+            byte[] bytes = new byte[1024 * 1024]; //1MB
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                checkCancell();
+                outputStream.write(bytes, 0, read);
+            }
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    throw e;
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.flush();
+                    outputStream.close();
+                } catch (IOException e) {
+                    throw e;
+                }
+
+            }
+        }
+    }
+
 }

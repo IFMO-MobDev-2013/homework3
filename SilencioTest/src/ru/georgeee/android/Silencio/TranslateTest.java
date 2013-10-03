@@ -64,7 +64,8 @@ public class TranslateTest extends InstrumentationTestCase {
         }
 
         @Override
-        protected void handleJSONException(JSONException ex) {
+        protected void handleJSONException(JSONException ex, String context) {
+            super.handleJSONException(ex,context);
             throw new RuntimeException(ex);
         }
     }

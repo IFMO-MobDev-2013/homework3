@@ -46,7 +46,7 @@ public class YandexTranslateTask extends TranslateTask {
             for (int i = 0; i < translations.length; ++i) translations[i] = translationsJSONArray.getString(i);
             translateResult.setResults(translations);
         } catch (JSONException e) {
-            handleJSONException(e);
+            handleJSONException(e, jsonObject.toString());
             return null;
         }
 

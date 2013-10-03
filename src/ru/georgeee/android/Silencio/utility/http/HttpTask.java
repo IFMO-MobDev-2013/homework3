@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
  * Time: 15:07
  * To change this template use File | Settings | File Templates.
  */
-public abstract class HttpTask<Result> extends AsyncTask<Object, Float, Result> {
+public abstract class HttpTask<Result> extends AsyncTask<Void, Void, Result> {
     protected String[] bodyParams;
 
     public String[] getBodyParams() {
@@ -41,22 +41,26 @@ public abstract class HttpTask<Result> extends AsyncTask<Object, Float, Result> 
         ex.printStackTrace();
     }
 
-    protected abstract Result getResult(HttpResponse httpResponse) throws IOException;
+    protected abstract Result getResult(HttpResponse httpResponse) throws IOException, CanceledException;
 
     @Override
-    protected Result doInBackground(Object... params) {
+    protected Result doInBackground(Void... params) {
         HttpRequestBase base = getHttpRequestBase();
         HttpResponse httpResponse;
         try {
             httpResponse = getHttpClient().execute(base);
-            return getResult(httpResponse);
+            try {
+                return getResult(httpResponse);
+            } catch (CanceledException e) {
+                return null;
+            }
         } catch (IOException ex) {
             handleHttpIOException(ex);
             return null;
         }
     }
 
-    public AsyncTask<Object, Float, Result> executeOnHttpTaskExecutor() {
+    public AsyncTask<Void, Void, Result> executeOnHttpTaskExecutor() {
         return executeOnExecutor(getExecutor());
     }
 
@@ -72,5 +76,13 @@ public abstract class HttpTask<Result> extends AsyncTask<Object, Float, Result> 
             sb.append(key).append('=').append(URLEncoder.encode(value, "UTF-8"));
         }
         return sb.toString();
+    }
+
+    protected void checkCancell() throws CanceledException {
+        if(isCancelled()) throw new CanceledException();
+    }
+
+    protected static class CanceledException extends Exception{
+
     }
 }

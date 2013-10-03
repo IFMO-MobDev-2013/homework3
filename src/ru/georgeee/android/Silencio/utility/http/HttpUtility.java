@@ -71,36 +71,4 @@ public class HttpUtility {
         return defaultHttpClient;
     }
 
-    public void readInputStreamIntoFile(InputStream inputStream, File file) throws IOException {
-        FileOutputStream outputStream = new FileOutputStream(file);
-        try {
-            if (!file.exists()) file.createNewFile();
-            int read = 0;
-            byte[] bytes = new byte[1024 * 1024]; //1MB
-
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
-
-        } catch (IOException e) {
-            throw e;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    throw e;
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.flush();
-                    outputStream.close();
-                } catch (IOException e) {
-                    throw e;
-                }
-
-            }
-        }
-    }
 }

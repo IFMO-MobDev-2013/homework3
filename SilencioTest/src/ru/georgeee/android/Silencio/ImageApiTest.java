@@ -18,7 +18,7 @@ import java.util.Arrays;
  * To change this template use File | Settings | File Templates.
  */
 public class ImageApiTest extends InstrumentationTestCase {
-    public static final String API_KEY = "ff93c8a54bd131aee7d52af8b44d4fbc";
+    public static final String API_KEY = "c6e9f7d17d4a23a08281d34b482a2785";
 
     public void testImageApi() throws Exception {
         ImageApiResult result = new FlickrImageApiTask(API_KEY, "Магазинчик БО").executeOnHttpTaskExecutor().get();

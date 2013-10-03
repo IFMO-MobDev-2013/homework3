@@ -63,6 +63,10 @@ public class FileCacher {
         dbManager.updateSize(path, size);
     }
 
+    public void launchCacheCleaner(){
+        dbManager.launchCacheCleaner();
+    }
+
     protected File getFileById(long fileId, String path) {
         File file = new File(getCacheDir(), fileId + "." + getExtension(path));
         return file;

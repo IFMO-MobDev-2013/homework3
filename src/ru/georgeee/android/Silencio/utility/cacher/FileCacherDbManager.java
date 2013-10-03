@@ -133,7 +133,7 @@ public class FileCacherDbManager {
                 new String[]{path});
     }
 
-    public void trimCaches() {
+    public void launchCacheCleaner() {
         executorService.submit(new Runnable() {
             @Override
             public void run() {

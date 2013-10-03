@@ -18,8 +18,8 @@ import java.io.File;
 public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity> {
     public static final long CACHE_BYTE_LIMIT = 50*1024*1024;
 
-    public CacherTest(String pkg) {
-        super(pkg, SearchActivity.class);
+    public CacherTest() {
+        super("ru.georgeee.android.Silencio", SearchActivity.class);
     }
 
     public void testImageDownloadCache() throws Exception {

@@ -27,26 +27,29 @@ public abstract class JsonResponseHttpTask<Result> extends HttpTask<Result> {
 
     protected abstract String getUrl();
 
-    protected void handleJSONException(JSONException ex) {
+    protected void handleJSONException(JSONException ex, String context) {
         ex.printStackTrace();
+        System.err.println("Context (JSONException): "+context);
     }
 
     protected abstract Result getResultByJson(JSONObject jsonObject);
 
     @Override
-    protected Result getResult(HttpResponse httpResponse) throws IOException {
+    protected Result getResult(HttpResponse httpResponse) throws IOException, CanceledException {
         // json is UTF-8 by default
         BufferedReader reader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent(), "UTF-8"), 8);
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
+            checkCancell();
             sb.append(line + "\n");
         }
         JSONObject jObject = null;
         try {
             jObject = new JSONObject(sb.toString());
         } catch (JSONException e) {
-            handleJSONException(e);
+            handleJSONException(e, sb.toString());
+            return null;
         }
         return getResultByJson(jObject);
     }

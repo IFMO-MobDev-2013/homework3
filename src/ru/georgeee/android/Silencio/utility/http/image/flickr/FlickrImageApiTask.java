@@ -1,5 +1,6 @@
 package ru.georgeee.android.Silencio.utility.http.image.flickr;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +40,7 @@ public class FlickrImageApiTask extends ImageApiTask {
     protected FlickrImageApiResult getResultByJson(JSONObject jObject) {
         FlickrImageApiResult result = new FlickrImageApiResult();
         try {
+            Log.d("Flickr.totalCount", jObject.getJSONObject("photos").getString("total"));
             JSONObject jsonObject = jObject.getJSONObject("photos");
             result.setPageCount(jsonObject.getInt("pages"));
             result.setPageNumber(jsonObject.getInt("page"));
@@ -51,7 +53,7 @@ public class FlickrImageApiTask extends ImageApiTask {
             }
             result.setImages(images);
         } catch (JSONException e) {
-            handleJSONException(e);
+            handleJSONException(e, jObject.toString());
             return null;
         }
         return result;
