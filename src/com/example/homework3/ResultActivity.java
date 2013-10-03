@@ -33,7 +33,7 @@ public class ResultActivity extends Activity {
         protected String[] doInBackground(String... params) {
             final String version = "1.0";
             final String imgsz = "small";
-            final String imgfmt = "png";
+            final String imgfmt = "jpg";
             final int resPerQuery = 8;
             String[] result = new String[amount];
             int head = 0;
