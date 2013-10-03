@@ -57,7 +57,7 @@ public class FileCacherDbManager {
                     FileCacherContract.CacheEntry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                     FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID + INTEGER_TYPE + COMMA_SEP +
                     FileCacherContract.CacheEntry.COLUMN_NAME_PATH + VARCHAR_NOT_NULL_TYPE + COMMA_SEP +
-                    FileCacherContract.CacheEntry.COLUMN_NAME_SIZE + INTEGER_TYPE + COMMA_SEP +
+                    FileCacherContract.CacheEntry.COLUMN_NAME_SIZE + INTEGER_TYPE +
                     " )";
 
     private static final String SQL_DELETE_ENTRIES =
@@ -101,7 +101,7 @@ public class FileCacherDbManager {
     public static final int trimCachesLimit = 10000;
 
     public Long findFileIdByPath(String path) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query(
                 FileCacherContract.CacheEntry.TABLE_NAME,
                 new String[]{
@@ -113,7 +113,7 @@ public class FileCacherDbManager {
                 null,
                 null
         );
-        if (cursor.isAfterLast()) return null;
+        if (!cursor.moveToNext()) return null;
         return cursor.getLong(0);
     }
 
@@ -137,9 +137,8 @@ public class FileCacherDbManager {
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                SQLiteDatabase readableDatabase = dbHelper.getReadableDatabase();
-                SQLiteDatabase writableDatabase = dbHelper.getWritableDatabase();
-                long byte_sum = readableDatabase.query(
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                long byte_sum = db.query(
                         FileCacherContract.CacheEntry.TABLE_NAME,
                         new String[]{
                                 "SUM(" + FileCacherContract.CacheEntry.COLUMN_NAME_SIZE + ")"
@@ -151,7 +150,7 @@ public class FileCacherDbManager {
                         null
                 ).getLong(0);
                 if (byte_sum > byteLimit) {
-                    Cursor cursor = readableDatabase.query(
+                    Cursor cursor = db.query(
                             FileCacherContract.CacheEntry.TABLE_NAME,  // The table to query
                             new String[]{
                                     FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID,
@@ -166,12 +165,11 @@ public class FileCacherDbManager {
                             String.valueOf(trimCachesLimit)
                     );
                     long lastDeletedFileId = -1;
-                    while (byte_sum > downByteLimit && !cursor.isAfterLast()) {
+                    while (byte_sum > downByteLimit && cursor.moveToNext()) {
                         lastDeletedFileId = cursor.getLong(0);
                         if (fileCacher.rmFile(lastDeletedFileId, cursor.getString(1))) {
                             byte_sum -= cursor.getLong(2);
-                            cursor.moveToNext();
-                            writableDatabase.delete(FileCacherContract.CacheEntry.TABLE_NAME,
+                            db.delete(FileCacherContract.CacheEntry.TABLE_NAME,
                                     FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID + " = ?",
                                     new String[]{String.valueOf(lastDeletedFileId)});
                         }

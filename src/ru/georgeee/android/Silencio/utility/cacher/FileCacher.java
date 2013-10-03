@@ -1,6 +1,7 @@
 package ru.georgeee.android.Silencio.utility.cacher;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.util.HashSet;
@@ -28,7 +29,7 @@ public class FileCacher {
     }
 
     public void init(Context context, long byteLimit) {
-        if (this.context != null) {
+        if (this.context == null) {
             this.context = context;
             dbManager = new FileCacherDbManager(context, byteLimit, this);
             fileIdSet = new HashSet<Long>();
