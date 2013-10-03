@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  */
 public class FileCacher {
     private static FileCacher ourInstance = new FileCacher();
-    protected boolean useSdCardStorage = false;
+    protected boolean useSdCardStorage = true;
     protected Context context = null;
     protected FileCacherDbManager dbManager;
     HashSet<Long> fileIdSet;
