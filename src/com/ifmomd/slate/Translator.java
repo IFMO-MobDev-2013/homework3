@@ -4,20 +4,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 interface OnTranslationCompleteListener {
-    public void OnTranslationComplete(Translator.TranslationResult[] result);
+    public void onTranslationComplete(Translator t, Translator.Translation[] result);
+}
+
+interface OnTranslationFailedListener {
+    public void onTranslationFaled(Translator t);
 }
 
 public class Translator {
-    private boolean mIsWorking = false;
+    protected boolean mIsWorking = false;
     public boolean isWorking() {return mIsWorking;}
 
-    private static final String API_KEY = "dict.1.1.20130923T213640Z.484ec64acb4393dd.2db0fb96a55b00d3399f9b5176ded60b886916cb";
+    protected String API_KEY = "dict.1.1.20130923T213640Z.484ec64acb4393dd.2db0fb96a55b00d3399f9b5176ded60b886916cb";
 
-    private enum TranslationDirection {
+    public String getRequestedWord() {
+        return requestedWord;
+    }
+
+    protected enum TranslationDirection {
         Ru_En("ru-en"), En_Ru("en-ru");
 
         public final String requestArg;
@@ -25,40 +34,49 @@ public class Translator {
         TranslationDirection(String requestArg) {this.requestArg = requestArg;}
     }
 
-    public static class TranslationResult {
+    public static class Translation implements Serializable{
 
-        private static TranslationResult[] TranslationsArrayFromJSON(JSONArray a) throws JSONException {
-            TranslationResult[] results = new TranslationResult[a.length()];
+        private static Translation[] arrayFromJSON(JSONArray a) throws JSONException {
+            Translation[] results = new Translation[a.length()];
             for (int i = 0; i < a.length(); i++)
-                results[i] = TranslationResult.fromJSON(a.getJSONObject(i));
+                results[i] = Translation.fromJSON(a.getJSONObject(i));
             return results;
         }
 
-        private static TranslationResult fromJSON(JSONObject o) throws JSONException {
-            TranslationResult result = new TranslationResult();
+        protected static Translation fromJSON(JSONObject o) throws JSONException {
+            Translation result = new Translation();
             if (o.has("text")) result.text = o.getString("text");
             if (o.has("pos")) result.position = o.getString("pos");
+            if (o.has("ts")) result.transcription = o.getString("ts");
             if (o.has("tr")) {
-                result.translations = TranslationsArrayFromJSON(o.getJSONArray("tr"));
+                result.translations = arrayFromJSON(o.getJSONArray("tr"));
             }
             if (o.has("syn")) {
-                result.synonyms = TranslationsArrayFromJSON(o.getJSONArray("syn"));
+                result.synonyms = arrayFromJSON(o.getJSONArray("syn"));
             }
             if (o.has("mean")) {
-                result.meanings = TranslationsArrayFromJSON(o.getJSONArray("mean"));
+                 result.meanings = arrayFromJSON(o.getJSONArray("mean"));
             }
             if (o.has("ex")) {
-                result.examples = TranslationsArrayFromJSON(o.getJSONArray("ex"));
+                result.examples = arrayFromJSON(o.getJSONArray("ex"));
             }
             return result;
         }
 
-        public String text, position;
-        TranslationResult[] translations, synonyms, meanings, examples;
+        public String text, position, transcription;
+        Translation[] translations, synonyms, meanings, examples;
     }
 
-    public Translator(String word, OnTranslationCompleteListener onTranslationCompleteListener) {
+    private String requestedWord;
+
+    public Translator(String word, OnTranslationCompleteListener onTranslationCompleteListener, OnTranslationFailedListener onTranslationFailedListener) {
+        requestedWord = word;
         mOnComplete = onTranslationCompleteListener;
+        mOnFail = onTranslationFailedListener;
+        run(word);
+    }
+
+    protected void run(String word) {
         String url = makeURLString(word, determineDirection(word));
         new JSONGetter(new JSONGetter.ResultHandler() {
             @Override
@@ -69,27 +87,31 @@ public class Translator {
         mIsWorking = true;
     }
 
-    private void handleResponse(JSONObject response) {
+    protected void handleResponse(JSONObject response) {
         try {
             if (response != null) {
-                TranslationResult[] results = TranslationResult.TranslationsArrayFromJSON(response.getJSONArray("def"));
-                mOnComplete.OnTranslationComplete(results);
+                Translation[] results = Translation.arrayFromJSON(response.getJSONArray("def"));
+                mOnComplete.onTranslationComplete(this, results);
                 mIsWorking = false;
             }
+            else
+                mOnFail.onTranslationFaled(this);
         } catch (JSONException ex) {
             ex.printStackTrace();
+            mOnFail.onTranslationFaled(this);
         }
     }
 
-    private TranslationDirection determineDirection(String word) {
-        for (char c : word.toLowerCase().toCharArray()) {
+    protected TranslationDirection determineDirection(String word) {
+        char[] a = word.toLowerCase().toCharArray();
+        for (char c : a) {
             if (c > 'a' && c < 'z') return TranslationDirection.En_Ru;
             if (c > 'а' && c < 'я') return TranslationDirection.Ru_En;
         }
         return TranslationDirection.values()[0];
     }
 
-    private String makeURLString(String word, TranslationDirection direction) {
+    protected String makeURLString(String word, TranslationDirection direction) {
         try {
             return String.format("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=%s&lang=%s&text=%s",
                                  API_KEY, direction.requestArg, URLEncoder.encode(word, "utf-8"));
@@ -99,8 +121,9 @@ public class Translator {
         }
     }
 
-    private String                        mOriginalWord;
-    private OnTranslationCompleteListener mOnComplete;
+    protected String                        mOriginalWord;
+    protected OnTranslationCompleteListener mOnComplete;
+    protected OnTranslationFailedListener   mOnFail;
 
 
 }

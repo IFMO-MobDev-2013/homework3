@@ -3,6 +3,8 @@ package com.ifmomd.slate;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -42,7 +44,9 @@ public class ImagesRenderer extends AsyncTask<Void, Drawable, Void> {
         super.onProgressUpdate(values);
         ImageView ig = new ImageView(context);
         ig.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        ig.setAdjustViewBounds(true);
         ig.setImageDrawable(values[0]);
         layout.addView(ig);
+        ig.startAnimation(AnimationUtils.loadAnimation(context, R.anim.appear_from_bottom));
     }
 }
