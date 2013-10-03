@@ -18,7 +18,7 @@ public class SecondActivity extends Activity {
 
     }
 
-    public void changeActivity(View v) {
+    public void onBackPressed() {
         Intent i = new Intent(SecondActivity.this, MyActivity.class);
         startActivity(i);
         finish();
