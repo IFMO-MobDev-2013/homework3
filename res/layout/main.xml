@@ -7,7 +7,16 @@
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, Program"
-            />
+            android:text="Введите текст для перевода"
+            android:textSize="20dp"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/query" android:layout_gravity="left|center_vertical"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Перевести"
+            android:id="@+id/button" android:onClick="onClick"/>
 </LinearLayout>
 
