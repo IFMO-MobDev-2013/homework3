@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:onClick="showimages">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="253dp"
+            android:id="@+id/textTranslation" android:enabled="true" android:autoText="false"
+            android:clickable="false" android:textSize="25dp" android:textStyle="bold"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='Переведено сервисом «Яндекс.Перевод"'
+            android:id="@+id/textView" android:layout_gravity="center" android:textStyle="italic"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="Показать картинки к тексту"
+            android:id="@+id/button" android:layout_gravity="center" android:onClick="showimages"
+            android:focusable="false"/>
+</LinearLayout>
