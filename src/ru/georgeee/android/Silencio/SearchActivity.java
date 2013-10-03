@@ -2,6 +2,7 @@ package ru.georgeee.android.Silencio;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -92,11 +93,11 @@ public class SearchActivity extends Activity {
             public void onScroll(AbsListView view, int firstVisible, int visibleCount, int totalCount) {
                 if (getSearchString().length() == 0)
                     return;
-                boolean loadMore = firstVisible + visibleCount >= totalCount - visibleCount /2;
+                boolean loadMore = firstVisible + visibleCount >= totalCount - 4;
 
                 if (loadMore) {
                     adapter.loadMore(firstVisible + visibleCount * 2);
-                    adapter.notifyDataSetChanged();
+                    Log.e("hey", "more!");
                 }
             }
         });

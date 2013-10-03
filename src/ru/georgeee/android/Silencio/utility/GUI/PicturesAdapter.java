@@ -31,6 +31,7 @@ public class PicturesAdapter extends BaseAdapter {
     private List<FlickrImageApiTask> imageTasks;
     private int page = 0;
     private final int IMAGES_PER_PAGE = 10;
+    boolean load = false;
 
     public void init(String searchRequest) {
         this.searchRequest = searchRequest;
@@ -48,12 +49,14 @@ public class PicturesAdapter extends BaseAdapter {
 
         page = 0;
         count = 0;
+        load = false;
         loadMore(10);
     }
 
     public void loadMore(int position) {
-        if (searchRequest.isEmpty() || page * IMAGES_PER_PAGE / 2 > position)
+        if (searchRequest.isEmpty() || load)
             return;
+        load = true;
         page++;
         Log.d(PicturesAdapter.class.getCanonicalName(), "searchRequest: " + searchRequest);
         Log.d(PicturesAdapter.class.getCanonicalName(), "flick api key: " + FLICKR_API_KEY);
@@ -73,6 +76,7 @@ public class PicturesAdapter extends BaseAdapter {
                 }
                 imageTasks.remove(this);
                 notifyDataSetChanged();
+                load = false;
             }
         };
         imageTasks.add(imageTask);
