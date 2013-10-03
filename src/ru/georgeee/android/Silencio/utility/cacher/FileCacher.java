@@ -47,6 +47,7 @@ public class FileCacher {
 
     public File getCacheDir() {
         File file = new File(context.getFilesDir(), "cache");
+//        File file = new File("/sdcard/Silencio", "cache");
         if (!file.exists()) file.mkdir();
         return file;
     }

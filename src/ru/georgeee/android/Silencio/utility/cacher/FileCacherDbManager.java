@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,7 +44,7 @@ public class FileCacherDbManager {
         /* Inner class that defines the table contents */
         public abstract class CacheEntry implements BaseColumns {
             public static final String TABLE_NAME = "file_cache_entries";
-            public static final String COLUMN_NAME_FILE_ID = "file_id";
+            public static final String COLUMN_NAME_FILE_ID = FileCacherContract.CacheEntry._ID;
             public static final String COLUMN_NAME_PATH = "path";
             public static final String COLUMN_NAME_SIZE = "size";
         }
@@ -54,8 +56,7 @@ public class FileCacherDbManager {
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FileCacherContract.CacheEntry.TABLE_NAME + " (" +
-                    FileCacherContract.CacheEntry._ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-                    FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID + INTEGER_TYPE + COMMA_SEP +
+                    FileCacherContract.CacheEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
                     FileCacherContract.CacheEntry.COLUMN_NAME_PATH + VARCHAR_NOT_NULL_TYPE + COMMA_SEP +
                     FileCacherContract.CacheEntry.COLUMN_NAME_SIZE + INTEGER_TYPE +
                     " )";
@@ -66,7 +67,7 @@ public class FileCacherDbManager {
     public class FileCacherDbHelper extends SQLiteOpenHelper {
         // If you change the database schema, you must increment the database version.
         public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "fileCacheReference.db";
+        public static final String DATABASE_NAME = "fileCacher.db";
 
         public FileCacherDbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -89,31 +90,37 @@ public class FileCacherDbManager {
     }
 
     public long insertNewPath(String path, long size) {
+//        Log.d("FileCacherDbManager", "insertNewPath(path="+path+" size="+size+")");
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(FileCacherContract.CacheEntry.COLUMN_NAME_PATH, path);
         values.put(FileCacherContract.CacheEntry.COLUMN_NAME_SIZE, size);
 
-        return db.insert(FileCacherContract.CacheEntry.TABLE_NAME, null, values);
+        long result = db.insert(FileCacherContract.CacheEntry.TABLE_NAME, null, values);
+//        Log.d("FileCacherDbManager", "insertNewPath(path="+path+" size="+size+" )  result:"+result);
+        return result;
     }
 
     public static final int trimCachesLimit = 10000;
 
     public Long findFileIdByPath(String path) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(
                 FileCacherContract.CacheEntry.TABLE_NAME,
                 new String[]{
                         FileCacherContract.CacheEntry.COLUMN_NAME_FILE_ID
                 },
-                FileCacherContract.CacheEntry.COLUMN_NAME_PATH + "=?",
+                FileCacherContract.CacheEntry.COLUMN_NAME_PATH + " = ?",
                 new String[]{path},
                 null,
                 null,
                 null
         );
-        if (!cursor.moveToNext()) return null;
+        boolean moveTry = cursor.moveToNext();
+//        Log.d("FileCacherDb::findFileIdByPath", "path: "+path+" moveTry:"+moveTry+" count="+cursor.getCount());
+        if (!moveTry) return null;
+//        Log.d("FileCacherDb::findFileIdByPath", "value="+cursor.getLong(0));
         return cursor.getLong(0);
     }
 

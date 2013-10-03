@@ -34,7 +34,7 @@ public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity>
         };
         File file = task.executeOnHttpTaskExecutor().get();
         Log.d("CacherTest", "file downloaded location: " + file.getAbsolutePath() + " fsize:" + file.length());
-        assertEquals(file.length(), 2076718);
+        assertEquals(2076718, file.length());
         File file2 = new SimpleCachingDownloadTask(BEATA_BEATRIX_URL).executeOnHttpTaskExecutor().get();
         file.deleteOnExit();
         file2.deleteOnExit();
@@ -43,21 +43,21 @@ public class CacherTest extends ActivityInstrumentationTestCase2<SearchActivity>
 
     public void testImageDownloadCache() throws Exception {
         FileCacher.getInstance().init(getActivity(), CACHE_BYTE_LIMIT);
-        ImageApiResult result = new FlickrImageApiTask(ImageApiTest.API_KEY, "Каннио").executeOnHttpTaskExecutor().get();
-
+        ImageApiResult result = new FlickrImageApiTask(ImageApiTest.API_KEY, "Apple").executeOnHttpTaskExecutor().get();
         ImageApiResult.Image[] images = result.getImages();
         File[] files = new File[Math.min(5, images.length)];
         SimpleCachingDownloadTask[] tasks = new SimpleCachingDownloadTask[files.length];
         for (int i = 0; i < files.length; ++i) {
-            tasks[i] = new SimpleCachingDownloadTask(images[i].getSmallImageUrl());
+            tasks[i] = new SimpleCachingDownloadTask(images[i].getSmallImageUrl()) {
+                @Override
+                protected void onPostExecute(File file) {
+                    assertTrue(file.exists());
+                    file.deleteOnExit();
+                    Log.d("CacherTest", "Url " + getUrl() + " downloaded into " + file.getAbsolutePath() + " (" + file.length() + "bytes)");
+                }
+            };
             tasks[i].executeOnHttpTaskExecutor();
         }
-        for (int i = 0; i < files.length; ++i) {
-            SimpleCachingDownloadTask task = tasks[i];
-            files[i] = task.get();
-            assertTrue(files[i].exists());
-            files[i].deleteOnExit();
-            Log.d("testImageDownloadCache", "Url "+images[i].getSmallImageUrl()+" downloaded into "+files[i].getAbsolutePath()+" ("+files[i].length()+"bytes)") ;
-        }
+
     }
 }
