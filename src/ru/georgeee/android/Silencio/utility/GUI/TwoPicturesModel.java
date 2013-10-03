@@ -43,8 +43,8 @@ public class TwoPicturesModel {
     public void setViews(ImageView leftView, ImageView rightView){
         this.leftView = leftView;
         this.rightView = rightView;
-        leftView.setImageResource(R.drawable.chel);
-        rightView.setImageResource(R.drawable.chel);
+        leftView.setImageResource(0);
+        rightView.setImageResource(0);
 
         if (leftFile != null)
             leftView.setImageURI(Uri.fromFile(leftFile));
@@ -79,9 +79,8 @@ public class TwoPicturesModel {
             @Override
             protected void onPostExecute(File file) {
                 leftFile = file;
-                if(leftView != null) {
-
-                    Log.e("WTf?", "leftView");
+                if (leftView != null){
+                    Log.e("LEFT", "end");
                     leftView.setImageURI(Uri.fromFile(leftFile));
                 }
             }
@@ -91,8 +90,10 @@ public class TwoPicturesModel {
             @Override
             protected void onPostExecute(File file) {
                 rightFile = file;
-                if(rightView != null)
+                if (rightView != null) {
+                    Log.e("RIGHT", "end");
                     rightView.setImageURI(Uri.fromFile(rightFile));
+                }
             }
         };
 
@@ -102,6 +103,7 @@ public class TwoPicturesModel {
     }
 
     public void cancel() {
+        Log.e("wtf?", "cancel");
         if (leftView != null)
             leftView.setOnClickListener(null);
         if (rightView != null)

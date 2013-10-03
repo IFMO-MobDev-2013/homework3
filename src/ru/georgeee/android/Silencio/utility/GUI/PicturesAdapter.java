@@ -131,25 +131,26 @@ public class PicturesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
         ViewHolder holder;
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
-            view = inflater.inflate(R.layout.rowlayout, null);
-            ImageView leftView = (ImageView)view.findViewById(R.id.icon_left);
-            ImageView rightView = (ImageView)view.findViewById(R.id.icon_right);
+            convertView = inflater.inflate(R.layout.rowlayout, null);
+            ImageView leftView = (ImageView)convertView.findViewById(R.id.icon_left);
+            ImageView rightView = (ImageView)convertView.findViewById(R.id.icon_right);
             ViewHolder viewHolder = new ViewHolder(leftView, rightView);
-            view.setTag(viewHolder);
+            convertView.setTag(viewHolder);
             holder = viewHolder;
         } else {
-            view = convertView;
-            holder = (ViewHolder)view.getTag();
-            if (holder.model != null)
+            holder = (ViewHolder)convertView.getTag();
+            if (holder.model != null)  {
                 holder.model.cancel();
+                Log.e("fucj!", "converted view canceled");
+            }
+            holder.model = list.get(position);
+            holder.model.setViews(holder.leftView, holder.rightView);
         }
-        holder.model = list.get(position);
-        holder.model.setViews(holder.leftView, holder.rightView);
 
-        return view;
+
+        return convertView;
     }
 }
