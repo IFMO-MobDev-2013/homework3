@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import ru.georgeee.android.Silencio.ImageActivity;
 import ru.georgeee.android.Silencio.R;
 import ru.georgeee.android.Silencio.SearchActivity;
@@ -27,8 +28,10 @@ import java.io.File;
 public class TwoPicturesModel {
     public ImageView leftView;
     public ImageView rightView;
+    public TextView textView;
     private ImageApiResult.Image leftImage;
     private ImageApiResult.Image rightImage;
+    private File leftFile, rightFile;
 
     private SimpleCachingDownloadTask leftDownloadTask, rightDownloadTask;
 
@@ -40,6 +43,14 @@ public class TwoPicturesModel {
     public void setViews(ImageView leftView, ImageView rightView){
         this.leftView = leftView;
         this.rightView = rightView;
+        leftView.setImageResource(R.drawable.chel);
+        rightView.setImageResource(R.drawable.chel);
+
+        if (leftFile != null)
+            leftView.setImageURI(Uri.fromFile(leftFile));
+
+        if(rightFile != null)
+            rightView.setImageURI(Uri.fromFile(rightFile));
 
         setListeners();
     }
@@ -48,7 +59,7 @@ public class TwoPicturesModel {
         leftView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(leftView.getContext(), ImageActivity.class).putExtra("image", R.drawable.ic_launcher);
+                Intent intent = new Intent(leftView.getContext(), ImageActivity.class).putExtra("ImageUrl", leftImage.getDefaultImageUrl());
                 leftView.getContext().startActivity(intent);
             }
         });
@@ -56,7 +67,7 @@ public class TwoPicturesModel {
         rightView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(leftView.getContext(), ImageActivity.class).putExtra("image", R.drawable.ic_launcher);
+                Intent intent = new Intent(leftView.getContext(), ImageActivity.class).putExtra("ImageUrl", rightImage.getDefaultImageUrl());
                 rightView.getContext().startActivity(intent);
             }
         });
@@ -64,32 +75,40 @@ public class TwoPicturesModel {
 
 
     public void download() {
-//        leftDownloadTask = new SimpleCachingDownloadTask(leftImage.getSmallImageUrl()) {
-//            @Override
-//            protected void onPostExecute(File file) {
-//              //  leftView.setImageURI(Uri.fromFile(file));
-//            }
-//        };
-//
-//        rightDownloadTask = new SimpleCachingDownloadTask(rightImage.getSmallImageUrl()) {
-//            @Override
-//            protected void onPostExecute(File file) {
-//               // rightView.setImageURI(Uri.fromFile(file));
-//            }
-//        };
-//
-//        leftDownloadTask.execute();
-//        rightDownloadTask.execute();
+        leftDownloadTask = new SimpleCachingDownloadTask(leftImage.getSmallImageUrl()) {
+            @Override
+            protected void onPostExecute(File file) {
+                leftFile = file;
+                if(leftView != null) {
+
+                    Log.e("WTf?", "leftView");
+                    leftView.setImageURI(Uri.fromFile(leftFile));
+                }
+            }
+        };
+
+        rightDownloadTask = new SimpleCachingDownloadTask(rightImage.getSmallImageUrl()) {
+            @Override
+            protected void onPostExecute(File file) {
+                rightFile = file;
+                if(rightView != null)
+                    rightView.setImageURI(Uri.fromFile(rightFile));
+            }
+        };
+
+        leftDownloadTask.executeOnHttpTaskExecutor();
+        rightDownloadTask.executeOnHttpTaskExecutor();
 
     }
 
     public void cancel() {
-        if(rightDownloadTask != null) {
-            rightDownloadTask.cancel(true);
-        }
-        if(leftDownloadTask != null) {
-            leftDownloadTask.cancel(true);
-        }
+        if (leftView != null)
+            leftView.setOnClickListener(null);
+        if (rightView != null)
+            rightView.setOnClickListener(null);
+
+        leftView = null;
+        rightView = null;
     }
 
 

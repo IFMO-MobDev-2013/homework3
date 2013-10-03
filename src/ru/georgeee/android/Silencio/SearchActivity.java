@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import ru.georgeee.android.Silencio.utility.GUI.PicturesAdapter;
 import ru.georgeee.android.Silencio.utility.GUI.TwoPicturesModel;
+import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.translate.TranslateResult;
 import ru.georgeee.android.Silencio.utility.http.translate.yandex.YandexTranslateTask;
 
@@ -40,8 +41,10 @@ public class SearchActivity extends Activity {
         addListners();
 
     }
-
+    private final static int CACHE_BYTE_LIMIT = 50 * 1024 * 1024;
     private void init() {
+        FileCacher.getInstance().init(this, CACHE_BYTE_LIMIT);
+
         searchedImages = (ListView)findViewById(R.id.images_result);
         translate = (TextView) findViewById(R.id.translate_result);
         searchButton = (Button) findViewById(R.id.search_button);
@@ -93,7 +96,7 @@ public class SearchActivity extends Activity {
                 boolean loadMore = firstVisible + visibleCount >= totalCount - 25;
 
                 if(loadMore) {
-                    adapter.loadMore(firstVisible + 50);
+                    adapter.loadMore(firstVisible + 40);
                     adapter.notifyDataSetChanged();
                 }
             }

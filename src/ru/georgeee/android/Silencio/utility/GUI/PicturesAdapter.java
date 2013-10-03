@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ru.georgeee.android.Silencio.R;
+import ru.georgeee.android.Silencio.utility.cacher.FileCacher;
 import ru.georgeee.android.Silencio.utility.http.image.ImageApiResult;
 import ru.georgeee.android.Silencio.utility.http.image.flickr.FlickrImageApiTask;
 
@@ -55,30 +56,31 @@ public class PicturesAdapter extends BaseAdapter {
     public void loadMore(int position){
         if (page * IMAGES_PER_PAGE / 2 > position)
             return;
-
         page++;
         Log.e("wow", searchRequest);
         Log.e("wow", FLICKR_API_KEY);
-        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest){
+        imageTask = new FlickrImageApiTask(FLICKR_API_KEY, searchRequest, page){
             @Override
             protected void onPostExecute(ImageApiResult imageApiResult) {
                 ImageApiResult.Image[] resultImages = imageApiResult.getImages();
                 for (int i = 0; i < resultImages.length; i++){
                     images.add(resultImages[i]);
-                    if (i % 2 == 1) {
-                        addItem();
-                    }
+                }
+                for (int i = 0; i < resultImages.length/2; i++){
+                    addItem();
                 }
                 imageTasks.remove(this);
                 notifyDataSetChanged();
             }
         };
         imageTasks.add(imageTask);
-        imageTask.execute();
+        imageTask.executeOnHttpTaskExecutor();
     }
 
     public void addItem(){
-        list.add(new TwoPicturesModel(images.get(count * 2), images.get(count * 2 + 1)));
+        TwoPicturesModel item = new TwoPicturesModel(images.get(count * 2), images.get(count * 2 + 1));
+        item.download();
+        list.add(item);
         count++;
     }
 
@@ -117,23 +119,36 @@ public class PicturesAdapter extends BaseAdapter {
         FLICKR_API_KEY = context.getString(R.string.flickr_api_key);
     }
 
+    private class ViewHolder{
+        ImageView leftView, rightView;
+        TwoPicturesModel model;
+        public ViewHolder(ImageView leftView, ImageView rightView) {
+            this.leftView = leftView;
+            this.rightView = rightView;
+        }
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = null;
+        ViewHolder holder;
         if (convertView == null){
             LayoutInflater inflater = context.getLayoutInflater();
             view = inflater.inflate(R.layout.rowlayout, null);
             ImageView leftView = (ImageView)view.findViewById(R.id.icon_left);
             ImageView rightView = (ImageView)view.findViewById(R.id.icon_right);
-            list.get(position).setViews(leftView, rightView);
-            view.setTag(list.get(position));
+            ViewHolder viewHolder = new ViewHolder(leftView, rightView);
+            view.setTag(viewHolder);
+            holder = viewHolder;
         } else {
             view = convertView;
+            holder = (ViewHolder)view.getTag();
+            if (holder.model != null)
+                holder.model.cancel();
         }
-
-        TwoPicturesModel currentModel = (TwoPicturesModel)view.getTag();
-        currentModel.download();
+        holder.model = list.get(position);
+        holder.model.setViews(holder.leftView, holder.rightView);
 
         return view;
     }
