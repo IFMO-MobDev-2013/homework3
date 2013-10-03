@@ -13,6 +13,7 @@ public class ResultActivity extends Activity
         super.onCreate(bundle);
         setContentView(new ResultView(this));
         Intent intent = getIntent();
-        Log.i("Tag", "Extra: " + intent.getStringExtra("QUERY_MESSAGE"));
+        Log.i("Tag", "Extra: " + intent.getStringExtra("query"));
+        Log.i("Tag", "Extra: " + intent.getStringExtra("translated"));
     }
 }

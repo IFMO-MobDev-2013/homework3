@@ -5,25 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import org.json.JSONObject;
 
-public class Program extends Activity
-{
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Program extends Activity {
     @Override
-    public void onCreate(Bundle bundle)
-    {
+    public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.main);
     }
 
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         EditText tf = (EditText) findViewById(R.id.query);
-        String query = String.valueOf(tf.getText());
+        String origin = String.valueOf(tf.getText());
+        new JsonLoader(origin, this).start();
+    }
+
+    public void changeActivity(String origin, String translated)
+    {
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("QUERY_MESSAGE", query);
+        intent.putExtra("query", origin);
+        intent.putExtra("translated", translated);
         startActivity(intent);
     }
 }
