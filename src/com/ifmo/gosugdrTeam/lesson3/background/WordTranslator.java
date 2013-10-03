@@ -38,7 +38,6 @@ public class WordTranslator {
                 builder.append(curString);
                 curString = reader.readLine();
             }
-
             JSONObject json = new JSONObject(builder.toString());
             JSONArray array = json.getJSONArray("text");
             answer = array.getString(0);
