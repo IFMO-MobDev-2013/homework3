@@ -22,9 +22,13 @@ public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     public String picturesJson;
     private List<String> pictures;
+    private WebImageView[] cache;
 
     public void update(String newPictures) throws JSONException {
         pictures.clear();
+        for(WebImageView i: cache) {
+            i = null;
+        }
         picturesJson = newPictures;
 
         JSONArray results = new JSONObject(picturesJson).getJSONObject("d").getJSONArray("results");
@@ -45,6 +49,10 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c) {
         mContext = c;
         pictures = new ArrayList<String>();
+        cache = new WebImageView[10];
+        for(WebImageView i: cache) {
+            i = null;
+        }
     }
 
     // Total number of things contained within the adapter
@@ -66,11 +74,14 @@ public class ImageAdapter extends BaseAdapter {
 
     public View getView(int position,
                         View convertView, ViewGroup parent) {
-        WebImageView img = new WebImageView(mContext);
-        img.setMaxHeight(100);
-        img.setMaxWidth(100);
-        img.setImageUrl(pictures.get(position));
-        return img;
+        if(cache[position] == null) {
+            cache[position] = new WebImageView(mContext);
+            cache[position].setPlaceholderImage(R.drawable.ic_launcher);
+            cache[position].setMaxHeight(100);
+            cache[position].setMaxWidth(100);
+            cache[position].setImageUrl(pictures.get(position));
+        }
+        return cache[position];
     }
 }
 
