@@ -50,11 +50,11 @@ public class ImageApiResult {
     public static abstract class Image {
         public abstract String getTitle();
         public abstract String getSmallImageUrl();
-        public abstract String getLargeImageUrl();
+        public abstract String getDefaultImageUrl();
 
         @Override
         public String toString(){
-            return "[ImageApiResult.Image title="+getTitle()+" smallUrl="+getSmallImageUrl()+" largeUrl="+getLargeImageUrl()+" ]";
+            return "[ImageApiResult.Image title="+getTitle()+" smallUrl="+getSmallImageUrl()+" defaultUrl="+ getDefaultImageUrl()+" ]";
         }
     }
 }

@@ -44,6 +44,7 @@ public class FlickrImageApiTask extends ImageApiTask {
             JSONObject jsonObject = jObject.getJSONObject("photos");
             result.setPageCount(jsonObject.getInt("pages"));
             result.setPageNumber(jsonObject.getInt("page"));
+            if(jsonObject.getString("total") == null) throw new JSONException("total is unexpectedly null");
             result.setTotalImageCount(Integer.valueOf(jsonObject.getString("total")));
             JSONArray imageJSONArray = jsonObject.getJSONArray("photo");
             FlickrImageApiResult.FlickrImage[] images = new FlickrImageApiResult.FlickrImage[imageJSONArray.length()];
