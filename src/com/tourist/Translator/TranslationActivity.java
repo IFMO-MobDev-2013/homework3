@@ -41,6 +41,7 @@ public class TranslationActivity extends Activity {
             try {
                 URL url = new URL(API_URL + URLEncoder.encode(params[0], "UTF-8"));
                 HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+                httpConnection.setConnectTimeout(15000);
                 httpConnection.connect();
                 int responseCode = httpConnection.getResponseCode();
                 if (responseCode != 200) {
