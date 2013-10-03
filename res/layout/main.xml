@@ -21,14 +21,6 @@
                 >
         </EditText>
 
-        <Button
-                android:layout_margin="5dp"
-                android:id="@+id/search_button"
-                android:layout_height="40dp"
-                android:layout_width="80dp"
-                android:text="GO!"
-                android:layout_alignParentRight="true">
-        </Button>
     </RelativeLayout>
 
     <TextView
@@ -38,7 +30,8 @@
             android:padding="1dp"
             android:textSize="45dp"
             android:textColor="@color/text"
-            android:background="@color/translate_field">
+            android:background="@color/translate_field"
+            android:layout_marginBottom="5dp">
     </TextView>
 
     <ListView
