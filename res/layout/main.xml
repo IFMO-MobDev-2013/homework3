@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="99dp"
+                android:id="@+id/editText" android:layout_gravity="center" android:layout_marginTop="17dp"
+                android:layout_marginRight="-1dp"/>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FROM"
+                    android:id="@+id/textView"
+                    android:layout_alignParentLeft="true" android:layout_marginLeft="8dp"
+                    android:layout_alignParentTop="true" android:layout_marginTop="13dp" android:textStyle="bold|italic"/>
+            <Spinner
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:entries="@array/languages"
+                    android:layout_alignParentLeft="true" android:layout_marginLeft="82dp"
+                    android:layout_alignBaseline="@+id/textView"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TO"
+                    android:id="@+id/textView1"
+                    android:textStyle="bold|italic"
+                    android:layout_alignRight="@+id/textView" android:layout_alignBaseline="@+id/spinner1"/>
+            <Spinner
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner1"
+                    android:entries="@array/languages"
+                    android:layout_alignLeft="@+id/spinner" android:layout_alignParentTop="true"
+                    android:layout_marginTop="49dp" android:layout_alignRight="@+id/spinner"/>
+        </RelativeLayout>
+        <Button
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:id="@+id/button" android:layout_gravity="center" android:layout_marginTop="49dp"
+                android:onClick="click1"/>
+    </LinearLayout>
+</LinearLayout>
+
