@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -34,7 +33,7 @@ public class ImagesReflector {
         this.listView = listView;
 
         this.context = context;
-        imageSearcher = new BingImageSearch(400, 400, 10);
+        imageSearcher = new BingImageSearch(400, 400, 3);
 
 
     }

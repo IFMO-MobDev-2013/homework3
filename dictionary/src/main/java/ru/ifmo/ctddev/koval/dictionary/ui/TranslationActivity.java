@@ -40,12 +40,7 @@ public class TranslationActivity extends Activity {
         translator = new YandexTranslator();
 
         setTranslation();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                setImages();
-            }
-        }).run();
+        setImages();
     }
 
     private void setTranslation() {
