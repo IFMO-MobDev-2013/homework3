@@ -109,16 +109,17 @@ class SearchAndLoadImages {
 
     public static void LoadPicAndFill(LoaderConnection con) throws JSONException, IOException {
         List<String> LinkList = getPictureURLS(con.text);
-        /*for (int i = 0; i < LinkList.size(); i++){
+        for (int i = 0; i < LinkList.size(); i++){
             String link = LinkList.get(i);
             try {
-                con.imageView.setImageDrawable(grabImageFromUrl(link));
+                ImageView imgView = new ImageView(con.context);
+                imgView.setImageDrawable(grabImageFromUrl(link));
+                con.imageView.addView(imgView);
+
             } catch (Exception e) {
-                int a = 5;
-                a /= 2;
 
             }
-        } */
+        }
 
         try{
             ImageView imgView = new ImageView(con.context);
@@ -129,8 +130,6 @@ class SearchAndLoadImages {
 
         }
 
-        int t = 5;
-        t /= 2;
 
     }
 
