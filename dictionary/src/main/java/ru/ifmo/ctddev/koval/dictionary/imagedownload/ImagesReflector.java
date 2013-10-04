@@ -16,7 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -29,18 +28,17 @@ public class ImagesReflector {
 
     private final ImageSearcher imageSearcher;
 
-
     public ImagesReflector(ListView listView, Context context) {
         this.listView = listView;
 
         this.context = context;
-        imageSearcher = new BingImageSearch(400, 400, 10);
+        imageSearcher = new BingImageSearch(500, 500, 10);
 
 
     }
 
 
-    public void reflect(String imageSearchQuery) throws ImageSearcherException, ExecutionException, InterruptedException {
+    public void reflect(String imageSearchQuery) throws ImageSearcherException, ExecutionException {
         List<ResponseImage> responseImageList = imageSearcher.search(imageSearchQuery);
 
         List<Bitmap> images = new ArrayList<>();
@@ -57,38 +55,54 @@ public class ImagesReflector {
                 }
             }
         };
+
         listView.setAdapter(adapter);
-
-
-
-        for(ResponseImage responseImage : responseImageList){
-            AsyncBitmapDownloader asyncBitmapDownloader = new AsyncBitmapDownloader();
-            asyncBitmapDownloader.execute(responseImage.getImageURL());
-            Bitmap downloadedImage = asyncBitmapDownloader.get();
-            images.add(downloadedImage);
-            adapter.notifyDataSetChanged();
-        }
+        AsyncImageInserter asyncImageInserter = new AsyncImageInserter(adapter);
+        //noinspection unchecked
+        asyncImageInserter.execute(responseImageList);
 
 
     }
 
 
-    private static class AsyncBitmapDownloader extends AsyncTask<String, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            String imageUrl = params[0];
+    private static class AsyncImageInserter extends AsyncTask<List<ResponseImage>, Bitmap, Void> {
+
+        private ArrayAdapter<Bitmap> adapter;
+        private AsyncImageInserter(ArrayAdapter<Bitmap> adapter) {
+            this.adapter = adapter;
+        }
+
+        private Bitmap getBitmapFromURL(String imageUrl) {
             try {
                 URL url = new URL(imageUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-
-                return BitmapFactory.decodeStream(input);
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
+        }
+
+
+        @Override
+        protected Void doInBackground(List<ResponseImage>... params) {
+            List<ResponseImage> responseImageList = params[0];
+            for (ResponseImage responseImage : responseImageList) {
+                Bitmap downloadedImage = getBitmapFromURL(responseImage.getImageURL());
+                publishProgress(downloadedImage);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Bitmap... values) {
+            super.onProgressUpdate(values);
+            adapter.add(values[0]);// notify adapter by default
+
         }
     }
 }

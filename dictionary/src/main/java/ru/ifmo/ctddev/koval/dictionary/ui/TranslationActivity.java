@@ -58,8 +58,6 @@ public class TranslationActivity extends Activity {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
 
 
