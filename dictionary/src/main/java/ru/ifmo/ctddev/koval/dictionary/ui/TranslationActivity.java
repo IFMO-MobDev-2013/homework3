@@ -22,8 +22,6 @@ public class TranslationActivity extends Activity {
     private String translatableWord;
     private Translator translator;
 
-
-
     /**
      * Called when the activity is first created.
      */
@@ -60,9 +58,10 @@ public class TranslationActivity extends Activity {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
+
     }
-
-
 }
