@@ -13,7 +13,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.TranslationActivity">
+        <activity android:name=".ui.TranslationActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 </manifest>

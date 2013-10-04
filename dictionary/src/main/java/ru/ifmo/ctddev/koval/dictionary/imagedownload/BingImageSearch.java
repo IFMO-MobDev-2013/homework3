@@ -28,9 +28,15 @@ public class BingImageSearch implements ImageSearcher{
     private static final String accountKey = "xtAvJ6Q81BmBb9Y3DNykBXdLKWj9GV/MzOFaT3QGpww";
     private static final String accountKeyEnc = new String(Base64.encodeBase64((accountKey + ":" + accountKey).getBytes()));
 
+//    private static final String SEARCH_PATTERN = "https://api.datamarket.azure.com/Bing/Search/v1/Composite?Sources=%%27image%%27" +
+//            "&Query=%%27" + "%s" + "%%27" +//text for searching
+//            "&ImageFilters=%%27Size%%3AWidth%%3A" + "%d" + "%%2BSize%%3AHeight%%3A" + "%d" + //size filter
+//            "%%27&$top=" + "%d" +//image count limit
+//            "&Adult=%%27Moderate%%27";
+
     private static final String SEARCH_PATTERN = "https://api.datamarket.azure.com/Bing/Search/v1/Composite?Sources=%%27image%%27" +
             "&Query=%%27" + "%s" + "%%27" +//text for searching
-            "&ImageFilters=%%27Size%%3AWidth%%3A" + "%d" + "%%2BSize%%3AHeight%%3A" + "%d" + //size filter
+            "&ImageFilters=" + //size filter
             "%%27&$top=" + "%d" +//image count limit
             "&Adult=%%27Moderate%%27";
 
