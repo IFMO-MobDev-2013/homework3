@@ -9,7 +9,7 @@ public interface ImageSearcher {
 
 
     List<ResponseImage> search(String text) throws ImageSearcherException;
-//    List<ResponseImage> search(String text, int heightFilter, int widthFilter, int imageLimit);
+    List<ResponseImage> search(String text, int heightFilter, int widthFilter, int imageLimit) throws ImageSearcherException;
 
 
 }

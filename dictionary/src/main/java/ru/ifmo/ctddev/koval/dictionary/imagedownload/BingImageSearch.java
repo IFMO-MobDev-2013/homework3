@@ -28,22 +28,22 @@ public class BingImageSearch implements ImageSearcher{
     private static final String accountKey = "xtAvJ6Q81BmBb9Y3DNykBXdLKWj9GV/MzOFaT3QGpww";
     private static final String accountKeyEnc = new String(Base64.encodeBase64((accountKey + ":" + accountKey).getBytes()));
 
-//    private static final String SEARCH_PATTERN = "https://api.datamarket.azure.com/Bing/Search/v1/Composite?Sources=%%27image%%27" +
-//            "&Query=%%27" + "%s" + "%%27" +//text for searching
-//            "&ImageFilters=%%27Size%%3AWidth%%3A" + "%d" + "%%2BSize%%3AHeight%%3A" + "%d" + //size filter
-//            "%%27&$top=" + "%d" +//image count limit
-//            "&Adult=%%27Moderate%%27";
-
     private static final String SEARCH_PATTERN = "https://api.datamarket.azure.com/Bing/Search/v1/Composite?Sources=%%27image%%27" +
             "&Query=%%27" + "%s" + "%%27" +//text for searching
-            "&ImageFilters=" + //size filter
+            "&ImageFilters=%%27Size%%3AWidth%%3A" + "%d" + "%%2BSize%%3AHeight%%3A" + "%d" + //size filter
             "%%27&$top=" + "%d" +//image count limit
             "&Adult=%%27Moderate%%27";
 
+//    private static final String SEARCH_PATTERN_NO_IMAGE_FILTERS = "https://api.datamarket.azure.com/Bing/Search/v1/Composite?Sources=%%27image%%27" +
+//            "&Query=%%27" + "%s" + "%%27" +//text for searching
+//            "&ImageFilters=" + //size filter
+//            "%%27&$top=" + "%d" +//image count limit
+//            "&Adult=%%27Moderate%%27";
 
-    private final int  defaultHeightFilter;
-    private final int defaultWidthFilter;
-    private final int defaultImageLimit;
+
+    private int  defaultHeightFilter;
+    private int defaultWidthFilter;
+    private int defaultImageLimit;
 
 
     public BingImageSearch(int defaultHeightFilter, int defaultWidthFilter, int defaultImageLimit) {
@@ -66,17 +66,32 @@ public class BingImageSearch implements ImageSearcher{
         return defaultImageLimit;
     }
 
-    public List<ResponseImage> search(String text) throws ImageSearcherException {
+    public void setDefaultHeightFilter(int defaultHeightFilter) {
+        this.defaultHeightFilter = defaultHeightFilter;
+    }
 
-        URL queryURL = null;
+    public void setDefaultWidthFilter(int defaultWidthFilter) {
+        this.defaultWidthFilter = defaultWidthFilter;
+    }
+
+    public void setDefaultImageLimit(int defaultImageLimit) {
+        this.defaultImageLimit = defaultImageLimit;
+    }
+
+    public List<ResponseImage> search(String text) throws ImageSearcherException {
+        return search(text, defaultWidthFilter, defaultHeightFilter, defaultImageLimit);
+    }
+
+
+    public List<ResponseImage> search(String text, int widthFilter, int heightFilter, int imageLimit) throws ImageSearcherException {
+
+        URL queryURL;
         try {
             queryURL = new URL(String.format(SEARCH_PATTERN, URLEncoder.encode(text, ENCODING_CHARSET),
-                    defaultWidthFilter, defaultHeightFilter, defaultImageLimit));
+                    widthFilter, heightFilter, imageLimit));
 
 //            queryURL = new URL("https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27xbox%27&Market=%27en-US%27&Adult=%27Moderate%27");
-        } catch (MalformedURLException e) {
-            throw new ImageSearcherException(e);
-        } catch (UnsupportedEncodingException e) {
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
             throw new ImageSearcherException(e);
         }
 
@@ -84,9 +99,7 @@ public class BingImageSearch implements ImageSearcher{
         asyncSearchQuery.execute(queryURL);
         try {
             return asyncSearchQuery.get();
-        } catch (InterruptedException e) {
-            throw new ImageSearcherException(e);
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new ImageSearcherException(e);
         }
 
@@ -118,18 +131,17 @@ public class BingImageSearch implements ImageSearcher{
                     inputLine = in.readLine();
                 }
                 in.close();
-                builder.toString();
                 conn.disconnect();
 
                 String searchResponse = builder.toString();
 
 
-                JSONArray results = null;
-                List<ResponseImage> resultImages = null;
+                JSONArray results;
+                List<ResponseImage> resultImages;
 
                 try {
                     results = new JSONObject(searchResponse).getJSONObject("d").getJSONArray("results");
-                    resultImages = new ArrayList<ResponseImage>();
+                    resultImages = new ArrayList<>();
                     for (int i = 0; i < results.length(); i++) {
                         JSONObject object = results.getJSONObject(i);
                         JSONArray images = object.getJSONArray("Image");

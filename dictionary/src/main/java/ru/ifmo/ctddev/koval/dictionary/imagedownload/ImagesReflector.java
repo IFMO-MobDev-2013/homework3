@@ -23,6 +23,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class ImagesReflector {
 
+    public static final int DEFAULT_SIZE_FILTER = 500;
+    public static final int DEFAULT_IMAGE_LIMIT = 10;
     ListView listView;
     private final Context context;
 
@@ -30,9 +32,10 @@ public class ImagesReflector {
 
     public ImagesReflector(ListView listView, Context context) {
         this.listView = listView;
+        listView.getWidth();
 
         this.context = context;
-        imageSearcher = new BingImageSearch(500, 500, 10);
+        imageSearcher = new BingImageSearch(DEFAULT_SIZE_FILTER, DEFAULT_SIZE_FILTER, DEFAULT_IMAGE_LIMIT);
 
 
     }
@@ -79,8 +82,7 @@ public class ImagesReflector {
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+                return BitmapFactory.decodeStream(input);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
