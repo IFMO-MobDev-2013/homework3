@@ -2,8 +2,14 @@ package ru.ifmo.ctddev.koval.dictionary.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.concurrent.ExecutionException;
+
 import ru.ifmo.ctddev.koval.dictionary.R;
+import ru.ifmo.ctddev.koval.dictionary.imagedownload.ImageSearcherException;
+import ru.ifmo.ctddev.koval.dictionary.imagedownload.ImagesReflector;
 import ru.ifmo.ctddev.koval.dictionary.translate.Translator;
 import ru.ifmo.ctddev.koval.dictionary.translate.YandexTranslator;
 
@@ -45,6 +51,15 @@ public class TranslationActivity extends Activity {
     // Special for Vladimir Skipor. Please, add comments to this method
     // and add you Gallery or GridView(LinearView?) object to global variables.
     private void setImages() {
+        ImagesReflector imagesReflector = new ImagesReflector((ListView) findViewById(R.id.image_list_view), this);
+        try {
+            imagesReflector.reflect(translatableWord);
+        } catch (ImageSearcherException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }
