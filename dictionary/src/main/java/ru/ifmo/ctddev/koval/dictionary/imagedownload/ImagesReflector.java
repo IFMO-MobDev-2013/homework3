@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -58,6 +60,8 @@ public class ImagesReflector {
                 }
             }
         };
+
+
 
         listView.setAdapter(adapter);
         AsyncImageInserter asyncImageInserter = new AsyncImageInserter(adapter);
@@ -108,3 +112,51 @@ public class ImagesReflector {
         }
     }
 }
+
+
+class ImageAdapter extends BaseAdapter {
+
+    private Context context;
+
+    private List<Bitmap> bitmaps;
+
+    ImageAdapter(Context context) {
+        this.context = context;
+        bitmaps = new ArrayList<Bitmap>();
+    }
+
+    ImageAdapter(Context context, Collection<Bitmap> collection) {
+        this.context = context;
+        bitmaps = new ArrayList<Bitmap>(collection);
+    }
+
+    @Override
+    public int getCount() {
+
+        return bitmaps.size();
+    }
+
+    @Override
+    public Bitmap getItem(int position) {
+        return bitmaps.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
+        if (convertView == null) {
+            imageView = new ImageView(context);
+            imageView.setImageBitmap(getItem(position));
+        } else {
+            imageView = ((ImageView) convertView);
+            imageView.setImageBitmap(getItem(position));
+        }
+        return imageView;
+    }
+}
+
