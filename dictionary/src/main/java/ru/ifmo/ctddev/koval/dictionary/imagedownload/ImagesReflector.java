@@ -45,24 +45,24 @@ public class ImagesReflector {
 
     public void reflect(String imageSearchQuery) throws ImageSearcherException, ExecutionException {
         List<ResponseImage> responseImageList = imageSearcher.search(imageSearchQuery);
+//
+//        List<Bitmap> images = new ArrayList<>();
+//
+//        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<Bitmap>(context, android.R.layout.simple_list_item_1, images){
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                if (convertView != null) {
+//                    return convertView;
+//                } else {
+//                    ImageView imageView = new ImageView(context);
+//                    imageView.setImageBitmap(getItem(position));
+//                    return imageView;
+//                }
+//            }
+//        };
 
-        List<Bitmap> images = new ArrayList<>();
 
-        ArrayAdapter<Bitmap> adapter = new ArrayAdapter<Bitmap>(context, android.R.layout.simple_list_item_1, images){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView != null) {
-                    return convertView;
-                } else {
-                    ImageView imageView = new ImageView(context);
-                    imageView.setImageBitmap(getItem(position));
-                    return imageView;
-                }
-            }
-        };
-
-
-
+        ImageAdapter adapter = new ImageAdapter(context);
         listView.setAdapter(adapter);
         AsyncImageInserter asyncImageInserter = new AsyncImageInserter(adapter);
         //noinspection unchecked
@@ -74,8 +74,8 @@ public class ImagesReflector {
 
     private static class AsyncImageInserter extends AsyncTask<List<ResponseImage>, Bitmap, Void> {
 
-        private ArrayAdapter<Bitmap> adapter;
-        private AsyncImageInserter(ArrayAdapter<Bitmap> adapter) {
+        private ImageAdapter adapter;
+        private AsyncImageInserter(ImageAdapter adapter) {
             this.adapter = adapter;
         }
 
@@ -157,6 +157,12 @@ class ImageAdapter extends BaseAdapter {
             imageView.setImageBitmap(getItem(position));
         }
         return imageView;
+    }
+
+
+    void add(Bitmap bitmap) {
+        bitmaps.add(bitmap);
+        notifyDataSetChanged();
     }
 }
 
