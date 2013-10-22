@@ -34,15 +34,14 @@ public class TranslationActivity extends Activity {
         translatableWord = getIntent().getStringExtra("inputWord");
 
         //Set translator implementation
-        translator = new YandexTranslator();
+        translator = new YandexTranslator(translationView);
 
         setTranslation();
         setImages();
     }
 
     private void setTranslation() {
-        String translation = translator.translate(translatableWord);
-        translationView.setText(translation != null ? translation : "Error while translating...");
+        translator.translate(translatableWord);
     }
 
     // Special for Vladimir Skipor. Please, add comments to this method
@@ -52,7 +51,5 @@ public class TranslationActivity extends Activity {
         ImageSearcherAdapter imageSearcherAdapter = new ImageSearcherAdapter(this);
         listView.setAdapter(imageSearcherAdapter);
         imageSearcherAdapter.addImagesByRequest(translatableWord);
-
-
     }
 }

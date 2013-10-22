@@ -13,6 +13,6 @@ public interface Translator {
      * @param word word to be translated
      * @return translating word in english or null if any error occurred
      */
-    public String translate(String word);
+    public void translate(String word);
 
 }

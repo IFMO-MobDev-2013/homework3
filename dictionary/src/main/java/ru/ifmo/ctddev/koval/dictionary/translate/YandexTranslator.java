@@ -1,6 +1,7 @@
 package ru.ifmo.ctddev.koval.dictionary.translate;
 
 import android.os.AsyncTask;
+import android.widget.TextView;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -17,7 +18,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Translator implementation using Yandex Translation service.
@@ -33,14 +33,15 @@ public class YandexTranslator implements Translator {
     private static final HttpClient HTTP_CLIENT = new DefaultHttpClient();
     private static final int GOOD_RESPONSE_CODE = 200;
 
+    private TextView translationView;
+
+    public YandexTranslator(TextView translationView) {
+        this.translationView = translationView;
+    }
 
     @Override
-    public String translate(String word) {
-        try {
-            return new YandexTranslatorAsyncTask().execute(word).get();
-        } catch (InterruptedException | ExecutionException e) {
-            return null;
-        }
+    public void translate(String word) {
+            new YandexTranslatorAsyncTask().execute(word);
     }
 
     /**
@@ -90,6 +91,11 @@ public class YandexTranslator implements Translator {
             } catch (JSONException e) {
                 return null;
             }
+        }
+
+        @Override
+        protected void onPostExecute(String translation) {
+            translationView.setText(translation != null ? translation : "Error while translating..");
         }
     }
 }
