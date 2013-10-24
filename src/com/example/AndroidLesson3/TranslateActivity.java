@@ -57,6 +57,7 @@ public class TranslateActivity extends Activity {
                 InputSource is = new InputSource();
                 is.setCharacterStream(new StringReader(sb.toString()));
                 doc = db.parse(is);
+                connect.disconnect();
                 if (translationXml == null) {
                     result = "no internet connection";
                 } else {
@@ -66,6 +67,7 @@ public class TranslateActivity extends Activity {
                 result = "internal error";
                 Log.e("lol", "lol", e);
             }
+
             return result;
         }
 
