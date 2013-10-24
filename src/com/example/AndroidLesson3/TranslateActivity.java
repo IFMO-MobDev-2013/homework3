@@ -64,7 +64,7 @@ public class TranslateActivity extends Activity {
                     result = doc.getElementsByTagName("text").item(0).getTextContent();
                 }
             } catch (Exception e) {
-                result = "internal error";
+                result = "no internet connection";
                 Log.e("lol", "lol", e);
             }
 
