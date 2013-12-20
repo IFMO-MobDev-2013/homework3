@@ -26,8 +26,7 @@ public class Translator {
         try {
             new TranslationTask(callback).execute(DIRECTION + URLEncoder.encode(s, "UTF-8") + TAIL);
         } catch (UnsupportedEncodingException e) {
-            // Log.wtf(Translator.class.getName(), e);
-            throw new RuntimeException("Couldn't find UTF-8...", e);
+           throw new RuntimeException("Couldn't find UTF-8...", e);
         }
     }
 

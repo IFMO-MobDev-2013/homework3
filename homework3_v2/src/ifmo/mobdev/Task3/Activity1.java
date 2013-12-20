@@ -60,7 +60,14 @@ public class Activity1 extends Activity {
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 if(keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER)
                 {
-                    translate();
+                    try
+                    {
+                        translate();
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(Activity1.this, "Пфффф", 10000).show();
+                    }
                 }
                 return false;
             }
