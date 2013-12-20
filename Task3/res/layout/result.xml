@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgButL" android:layout_gravity="left|center_vertical"
+            android:src="@drawable/left_button_custom" android:background="@null"/>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgButR" android:layout_gravity="right|center_vertical"
+            android:src="@drawable/right_button_custom" android:background="@null"/>
+    <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgView1"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="20dp"
+            android:background="@null"/>
+    <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgView2"
+            android:layout_gravity="left|bottom"
+            android:adjustViewBounds="false"
+            android:background="@null"
+            android:layout_marginBottom="20dp"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView3"
+               android:layout_gravity="left|top" android:layout_marginTop="20dp" android:background="@null"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView4"
+               android:layout_gravity="left|bottom" android:adjustViewBounds="false"
+               android:background="@null" android:layout_marginBottom="20dp"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView5"
+               android:layout_gravity="left|top" android:layout_marginTop="20dp" android:background="@null"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView6"
+               android:layout_gravity="left|bottom" android:adjustViewBounds="false"
+               android:background="@null" android:layout_marginBottom="20dp"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView7"
+               android:layout_gravity="left|top" android:layout_marginTop="20dp" android:background="@null"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView8"
+               android:layout_gravity="left|bottom" android:adjustViewBounds="false"
+               android:background="@null" android:layout_marginBottom="20dp"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView9"
+               android:layout_gravity="left|top" android:layout_marginTop="20dp" android:background="@null"/>
+    <ImageView android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/imgView10"
+               android:layout_gravity="left|bottom" android:adjustViewBounds="false"
+               android:background="@null" android:layout_marginBottom="20dp"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:text="Word - translation"
+            android:id="@+id/textView"
+            android:layout_gravity="center"
+            android:textIsSelectable="false" android:gravity="center_horizontal"/>
+    <TextView android:layout_width="fill_parent"
+              android:layout_height="30dp"
+              android:text="Word - translation"
+              android:id="@+id/textView1"
+              android:layout_gravity="center"
+              android:layout_marginTop="20dp"
+              android:textIsSelectable="false" android:gravity="center_horizontal"/>
+</FrameLayout>
