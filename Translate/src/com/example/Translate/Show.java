@@ -38,7 +38,7 @@ public class Show extends Activity {
         try {
             pictureFinder.execute();
             translater.execute();
-            answer = translater.get().toString();
+            answer = translater.get();
             images = pictureFinder.get();
         } catch (InterruptedException e) {
 
