@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+    >
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter your english/russian text"
+            android:id="@+id/enter_text" android:gravity="center" android:textSize="20dp"
+            android:textIsSelectable="false"
+            android:textStyle="normal" android:layout_gravity="center"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Перевести"
+            android:id="@+id/send" android:textColor="#000000" android:textSize="20dp" android:layout_gravity="center"
+            android:background="#FFAAFFAA"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:id="@+id/image"
+            android:layout_gravity="center"/>
+</LinearLayout>
+
