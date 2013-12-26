@@ -47,7 +47,6 @@ public class Show extends Activity {
         }
 
         if (images == null) {
-            answer = "an error occured";
             TextView errorText = (TextView) findViewById(R.id.errorWithPics);
             errorText.setTextColor(Color.RED);
             errorText.setTextSize(50);

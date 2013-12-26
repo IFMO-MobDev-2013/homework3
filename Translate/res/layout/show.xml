@@ -14,7 +14,8 @@
             android:layout_width="54dp"
             android:layout_height="48dp"
             android:text="Back"
-            android:id="@+id/back" android:layout_gravity="center" android:background="@drawable/back"/>
+            android:id="@+id/back" android:layout_gravity="center" android:background="@drawable/back"
+            android:focusable="false"/>
 
     <ScrollView
             android:layout_height="wrap_content"

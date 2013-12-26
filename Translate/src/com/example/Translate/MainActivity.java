@@ -36,7 +36,6 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this,Show.class);
                 intent.putExtra("word",word);
                 startActivity(intent);
-
             }
         });
 
