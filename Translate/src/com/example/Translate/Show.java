@@ -31,37 +31,37 @@ public class Show extends Activity {
         String word = intent.getStringExtra("word");
 
         Translater translater = new Translater(word);
+        PictureFinder pictureFinder = new PictureFinder(word);
         String answer = null;
+        LinearLayout layout = (LinearLayout) findViewById(R.id.imagesLayout);
+        ArrayList<Drawable> images = null;
         try {
-            answer = translater.execute().get().toString();
+            pictureFinder.execute();
+            translater.execute();
+            answer = translater.get().toString();
+            images = pictureFinder.get();
         } catch (InterruptedException e) {
 
         } catch (ExecutionException e) {
 
         }
-        textView.setTextSize(Color.BLACK);
 
-
-
-        LinearLayout layout = (LinearLayout) findViewById(R.id.imagesLayout);
-        try {
-            ArrayList<Drawable> images = PictureFinder.getImages(answer);
+        if (images == null) {
+            answer = "an error occured";
+            TextView errorText = (TextView) findViewById(R.id.errorWithPics);
+            errorText.setTextColor(Color.RED);
+            errorText.setTextSize(50);
+            errorText.setText("error");
+        } else {
             for (int i = 0; i < 10; i++) {
                 ImageView imageView = new ImageView(Show.this);
                 imageView.setImageDrawable(images.get(i));
                 layout.addView(imageView);
                 layout.invalidate();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            TextView errorText = (TextView) findViewById(R.id.errorWithPics);
-            errorText.setTextColor(Color.RED);
-            errorText.setTextSize(50);
-            errorText.setText("error");
+            textView.setTextSize(Color.BLACK);
+            textView.setText(answer);
         }
-
-        textView.setText(answer);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
