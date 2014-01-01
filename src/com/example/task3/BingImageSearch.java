@@ -29,6 +29,7 @@ public class BingImageSearch extends AsyncTask<String, Void, String> {
     private static final String BING_SEARCH = "https://api.datamarket.azure.com/Bing/Search/v1/Composite" +
             "?Sources=%%27image%%27" +
             "&Query=%%27" + "%s" + "%%27" +
+            "&ImageFilters=%%27Size%%3ASmall%%27" +
             "&$top=" + "%d";
     private static final String accountKey = "pYurF1x1xr+c7M0F6TLbl7KySmVMbphBJPLR0HwTZug=";
 
