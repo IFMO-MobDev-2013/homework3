@@ -9,7 +9,9 @@
             android:background="@drawable/editback"
             android:layout_width="fill_parent"
             android:layout_height="99dp"
-            android:id="@+id/editText" android:layout_gravity="center" android:layout_marginTop="17dp"
+            android:id="@+id/editText"
+            android:layout_gravity="center"
+            android:layout_marginTop="17dp"
             android:layout_marginRight="-1dp"/>
     <RelativeLayout
             android:layout_width="fill_parent"
@@ -46,14 +48,19 @@
                 android:layout_height="50dp"
                 android:id="@+id/spinner1"
                 android:entries="@array/languages"
-                android:layout_alignLeft="@+id/spinner" android:layout_alignParentTop="true"
-                android:layout_marginTop="49dp" android:layout_alignRight="@+id/spinner"/>
+                android:layout_alignLeft="@+id/spinner"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="49dp"
+                android:layout_alignRight="@+id/spinner"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/submit"
-                android:id="@+id/button" android:layout_gravity="center"
-                android:onClick="click1" android:layout_centerVertical="true" android:layout_alignParentRight="true"/>
+                android:id="@+id/button"
+                android:layout_gravity="center"
+                android:onClick="click1"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </LinearLayout>
 
