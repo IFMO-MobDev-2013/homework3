@@ -16,6 +16,7 @@ public class TranslationActivity extends Activity {
     String text;
     String calling;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.translation_images);
@@ -52,12 +53,14 @@ public class TranslationActivity extends Activity {
             if (result == null) {
                 result = "NO TRANSLATION. SORRY";
             }
-            textOut.setText(text + "  ->(ru) " + result);
-            
+            textOut.setText(text + " ->(ru) " + result);
+
+
             findViewById(R.id.showImagesButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ShowImagesActivity.class);
+                    intent.putExtra("text", textOut.getText().toString());
                     intent.putExtra("enText", text);
                     startActivity(intent);
                 }

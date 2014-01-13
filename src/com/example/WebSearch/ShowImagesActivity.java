@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,26 +24,32 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class ShowImagesActivity {
+public class ShowImagesActivity extends Activity {
 
     private Context context;
     private ArrayList<ImageView> imageViews;
     private MyAdapter myAdapter;
 
-    private final int NUMBER = 10;
-    private final int IMG_PER_PAGE = 8;
+    private static final int NUMBER = 10;
+    private static final int IMG_PER_PAGE = 8;
 
-    public void onCreate() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.translation_images);
 
         ListView listView = (ListView) findViewById(R.id.images);
         myAdapter = new MyAdapter(this, R.layout.list_item);
         listView.setAdapter(myAdapter);
 
-        System.out.println(getIntent().getStringExtra("enText"));
+        String text = getIntent().getStringExtra("text");
+        TextView textView = (TextView) findViewById(R.id.textTranslation);
+        textView.setText(text);
 
         imageViews = new ArrayList<ImageView>();
         context = this;
-        new ImageURLsFetcher().execute(getIntent().getStringExtra("enText"));
+        String enText = getIntent().getStringExtra("enText");
+        new ImageURLsFetcher().execute(enText);
     }
 
     private class ImageURLsFetcher extends AsyncTask<String, Void, String[]> {
