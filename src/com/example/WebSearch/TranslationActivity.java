@@ -53,17 +53,15 @@ public class TranslationActivity extends Activity {
                 result = "NO TRANSLATION. SORRY";
             }
             textOut.setText(text + "  ->(ru) " + result);
-            /*
+            
             findViewById(R.id.showImagesButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), ShowImagesActivity.class);
                     intent.putExtra("enText", text);
-                    System.out.println("TRRRASNSLATION:::::: " + text);
                     startActivity(intent);
                 }
             });
-            */
         }
     }
 }
