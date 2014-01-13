@@ -7,13 +7,18 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="example"
-            android:id="@+id/editText" android:layout_gravity="center" android:hint="Enter the text in Russian"
-            android:selectAllOnFocus="false"/>
+            android:id="@+id/editText"
+            android:layout_gravity="center"
+            android:hint="Enter the text in English"
+            android:inputType="textMultiLine"
+            android:autoText="false"
+            android:textSize="25dp"/>
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Translation"
-            android:id="@+id/button" android:onClick="onClick"/>
+            android:id="@+id/button"
+            android:onClick="onClick"
+            android:textSize="35dp"/>
 </LinearLayout>
 
