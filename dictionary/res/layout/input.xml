@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:gravity="center_vertical">
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical">
+
     <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
         <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Type word to translate"
-                android:id="@+id/translationInput" android:layout_gravity="center" android:singleLine="true"
-                android:selectAllOnFocus="true" android:inputType="text|textAutoComplete|textAutoCorrect"
-                android:textIsSelectable="true" android:focusable="true" android:enabled="true"
-                android:minWidth="200dp"/>
-    </FrameLayout>
-    <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Translate"
-            android:onClick="changeActivity"
-            android:id="@+id/translationButton" android:layout_gravity="center"/>
+            android:hint="Type word to translate"
+            android:id="@+id/translationInput"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:minWidth="200dp" />
+    </FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Translate"
+        android:onClick="changeActivity"
+        android:id="@+id/translationButton"
+        android:layout_gravity="center" />
 </LinearLayout>
 
