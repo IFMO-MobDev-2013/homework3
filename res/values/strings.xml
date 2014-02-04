@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Translator</string>
+    <string name="edit_text_hint">Enter text here</string>
+    <string name="for_example">For example:</string>
+    <string name="btn_text">TRANSLATE</string>
+    <string name="show_question">Show images?</string>
+    <string name="no_connection">There is no Internet Connection</string>
+    <string name="some_troubles">Something went wrong</string>
+    <string name="no_english_letters">You\'ve entered no English letters</string>
+    <string name="type_english_letters">You should type at least one English character</string>
+    <string name="try_again_question">Try again?</string>
+    <string name="yes_string">Yes</string>
+    <string name="no_string">No</string>
+    <string name="ok_string">OK</string>
+    <string name="done_string">Done</string>
+    <string name="downloading">Downloading...</string>
+    <string-array name="examples">
+        <item>calculator</item>
+        <item>orange</item>
+        <item>balloon</item>
+        <item>equipment</item>
+        <item>translator</item>
+        <item>half</item>
+        <item>reservation</item>
+        <item>suck</item>
+        <item>kiss</item>
+        <item>item</item>
+        <item>education</item>
+        <item>oil</item>
+        <item>symbol</item>
+       	<item>worm</item>
+       	<item>retribution</item>
+       	<item>rat</item>
+       	<item>pool</item>
+       	<item>onion</item>
+    </string-array>
+
+</resources>
